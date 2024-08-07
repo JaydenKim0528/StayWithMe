@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.2'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'kr.co'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// 스프링 시큐리티 의존성 추가
+	// Spring Security의 기본 기능 추가
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//Thymeleaf 템플릿 엔진과 Spring Security를 연동
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// 유효성 검사
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// cool sms 의존성 추가
+	implementation 'net.nurigo:sdk:4.3.0'
+
+	testImplementation 'org.mockito:mockito-core:4.0.0'
+	testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
