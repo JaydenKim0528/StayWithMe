@@ -29,10 +29,6 @@ function idCheck() {
         return;
     }
 
-    // 유효성 검사를 통과하면 메시지 제거
-    idMsg.innerHTML = "";
-    isIdValid = true;
-
     console.log(signUpId);
     console.log("Checking ID");
 
@@ -161,10 +157,6 @@ function requestSMS() {
         return;
     }
 
-    // 유효성 검사를 통과하면 메시지 제거
-    phoneMsg.innerHTML = "";
-
-
     $.ajax({
         type: "POST",
         url: "/sms/send",
@@ -188,6 +180,9 @@ function checkSMS() {
     const userCode = document.getElementById("Authentication").value; // 사용자가 입력한 인증번호
     const serverCode = document.getElementById("randomNum").value;
 
+    console.log("사용자 입력 인증번호:", userCode);
+    console.log("서버에서 받은 인증번호:", serverCode);
+
     if (!userCode) {
         alert('인증번호를 입력해 주세요.');
         return;
@@ -196,7 +191,7 @@ function checkSMS() {
     if (userCode === serverCode) {
         clearInterval(timer); // 타이머 중지
         isVerified = true;
-        document.getElementById("authMsg").innerHTML = "휴대폰 인증이 정상적으로 완료되었습니다.";
+        document.getElementById("authMsg").innerHTML = "인증이 정상적으로 완료되었습니다.";
         document.getElementById("authMsg").style.color = "#aaa";
     } else {
         alert("인증번호가 올바르지 않습니다.");
@@ -207,13 +202,17 @@ function checkSMS() {
 // 폼 제출 시 호출되는 함수
 function validateForm(event) {
     if (!isIdValid || !isPwdValid || !isNameValid || !isVerified) { // 하나라도 false가 있으면 폼 제출 막음
-        alert("모든 입력창을 확인해주세요.");
+        alert("올바르게 기입하였는지 확인해주세요.");
         event.preventDefault(); // 폼 제출을 막습니다
     }
+    else {
+         // 모든 검사가 통과되었을 때 회원가입 성공 메시지
+         alert("회원가입에 성공하였습니다.");
+         }
 }
 
 // 폼 요소에 이벤트 리스너 추가
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form'); // 폼 선택
+    const form = document.getElementById('signUpForm'); // 폼 선택
     form.addEventListener('submit', validateForm); // submit 이벤트 리스너 추가
 });

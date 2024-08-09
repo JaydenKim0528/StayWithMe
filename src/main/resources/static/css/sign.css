@@ -19,11 +19,14 @@ body {
   display: block;
 }
 
+/*아이디 찾기 비밀번호 찾기*/
 a {
   color: inherit;
   text-decoration: none;
+  margin: 15px;
 }
 
+/* 로그인/회원가입 영역의 외부 래퍼 */
 .login-wrap {
   width: 100%;
   margin: auto;
@@ -37,6 +40,7 @@ a {
   overflow: hidden;
 }
 
+/* 로그인/회원가입의 HTML 구조를 감싸는 요소 */
 .login-html {
   width: 100%;
   height: 100%;
@@ -91,6 +95,7 @@ a {
   transform-style: preserve-3d;
 }
 
+/* 폼 내의 레이블, 입력 필드, 버튼 공통 스타일 */
 .login-form .group .label,
 .login-form .group .input,
 .login-form .group .button {
@@ -99,6 +104,7 @@ a {
   display: block;
 }
 
+/* 입력 필드와 버튼 스타일 */
 .login-form .group .input,
 .login-form .group .button {
   border: 1px solid #ddd;
@@ -107,6 +113,37 @@ a {
   background: #f5f5f5;
 }
 
+.login-form .group .signInId,
+.login-form .group .signInPwd{
+  margin:25px 0px 35px 0px;
+}
+
+.login-form .group .requestSMS-bnt,
+.login-form .group .idCheck-bnt{
+  height: 50px; width: 130px;
+}
+
+.login-form .group .checkSMS-bnt {
+  height: 50px;
+  width: 145px;
+  float:right;
+  margin: 15px 0px 30px 0px;
+}
+
+
+/*유효성 검사 내용*/
+.validate {
+  margin-left: 10px;
+}
+
+/*휴대전화입력 & 아이디입력 필드*/
+.login-form .group .phone-input,
+.login-form .group .signUpId-input {
+  width: 302px;
+  margin-right: 10px;
+}
+
+/* 비밀번호 필드에 텍스트 마스킹 적용 */
 .login-form .group input[data-type="password"] {
   text-security: disc;
   -webkit-text-security: disc;
@@ -117,11 +154,24 @@ a {
   font-size: 12px;
 }
 
+/* 공통적인 버튼 스타일 */
 .login-form .group .button {
   background: #1161ee;
   color: #fff;
+
 }
 
+/*로그인 버튼*/
+.login-form .group .signInBnt {
+  margin:25px 0px 35px 0px;
+}
+
+/*회원가입 버튼*/
+.login-form .group .signUpBnt {
+  margin:15px 0px;
+}
+
+/*체크박스*/
 .login-form .group label .icon {
   width: 15px;
   height: 15px;
@@ -153,10 +203,12 @@ a {
   transform: scale(0) rotate(0);
 }
 
+/* 체크박스가 체크되었을 때의 스타일 */
 .login-form .group .check:checked + label {
   color: #333;
 }
 
+/* 체크된 상태에서 아이콘의 배경 및 체크 표시 */
 .login-form .group .check:checked + label .icon {
   background: #1161ee;
 }
@@ -169,6 +221,7 @@ a {
   transform: scale(1) rotate(-45deg);
 }
 
+/* 로그인 폼과 회원가입 폼의 전환 애니메이션 */
 .login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm {
   transform: rotate(0);
 }
@@ -177,6 +230,7 @@ a {
   transform: rotate(0);
 }
 
+/* 소셜 로그인 섹션의 구분선 스타일 */
 .divider {
   display: flex;
   align-items: center;
@@ -199,29 +253,30 @@ a {
   margin-left: .25em;
 }
 
+/*아이디 찾기 비밀번호 찾기*/
 .foot-lnk {
   text-align: center;
 }
 
 /* 인증 요청 버튼과 전화번호 입력 필드를 나란히 배치하기 위해 추가된 부분 */
-.phone-group {
+.phone-group,
+.id-group {
   display: flex;
   align-items: center;
 }
 
+/* 전화번호 입력 필드*/
 .phone-input {
   width: 200px;
   margin-right: 10px;
 }
 
-
-
-/* 소셜 로그인 버튼 스타일 */
+/* 소셜 로그인 스타일 */
 .social-login {
   text-align: center;
   margin: 50px 0;
 
-
+/* 소셜 로그인 버튼 스타일 */
 .social-login-btn {
   display: inline-block;
   margin: 0 10px;
@@ -231,6 +286,7 @@ a {
   height: 60px;
 }
 
+/* 소셜 로그인 버튼 내부 이미지 스타일 */
 .social-login-btn img {
   width: 100%;
   height: 100%;

@@ -17,7 +17,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 회원가입(Form) 페이지 이동
+    // 회원가입 & 로그인 페이지 이동
     @GetMapping("/signForm")
     public String showSignForm(Model model) {
         // th:object로 바인딩되어 폼 필드와 연결
@@ -62,7 +62,6 @@ public class MemberController {
         String userId = param.get("userId");
         // 아이디 체크
         int result = memberService.idCheck(userId);
-        // 중복
         response.put("result", result);
         // 응답 결과 반환
         return response;
@@ -71,16 +70,11 @@ public class MemberController {
     // 회원가입
     @PostMapping("/signUp")
     public String signUp(@Valid MemberDTO memberDTO) {
-        System.out.println(memberDTO.getUserId());
-        System.out.println(memberDTO.getUserPwd());
-        System.out.println(memberDTO.getUserName());
         int result = memberService.setSignup(memberDTO);
         return "member/sign";
     }
 
-    @GetMapping("/mypage")
-    public String mypage() {
-        return "member/mypage";
-    }
+    // 로그인
+
 
 }
