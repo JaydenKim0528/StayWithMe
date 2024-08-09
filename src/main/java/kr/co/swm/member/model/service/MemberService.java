@@ -2,7 +2,7 @@ package kr.co.swm.member.model.service;
 
 import kr.co.swm.member.model.dto.MemberDTO;
 import kr.co.swm.member.model.mapper.MemberMapper;
-import kr.co.swm.member.utill.SmsCertificationUtill;
+import kr.co.swm.member.util.SmsCertificationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberMapper memberMapper;
-    private final SmsCertificationUtill smsCertificationUtill;
+    private final SmsCertificationUtil smsCertificationUtill;
 
     // 회원가입
     public int setSignup(MemberDTO memberDTO) {
