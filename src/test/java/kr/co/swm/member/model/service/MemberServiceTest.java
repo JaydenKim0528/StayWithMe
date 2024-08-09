@@ -1,7 +1,7 @@
 package kr.co.swm.member.model.service;
 
 import kr.co.swm.member.model.mapper.MemberMapper;
-import kr.co.swm.member.utill.SmsCertificationUtill;
+import kr.co.swm.member.util.SmsCertificationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ class MemberServiceTest {
     private MemberMapper memberMapper;
 
     @Mock
-    private SmsCertificationUtill smsCertificationUtil;
+    private SmsCertificationUtil smsCertificationUtil;
 
     @InjectMocks
     private MemberService memberService;
