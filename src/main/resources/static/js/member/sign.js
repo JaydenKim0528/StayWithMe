@@ -66,7 +66,8 @@ function validName() {
     const signUpName = document.getElementById("signUpName").value;
     const nameMsg = document.getElementById("nameMsg");
 
-    const idPattern = /^[가-힣]{2,10}$/; /*최소 2자, 최대 10자의 한글만 가능합니다*/
+    /*최소 2자, 최대 10자의 한글만 가능합니다*/
+    const idPattern = /^[가-힣]{2,10}$/;
 
     if(idPattern.test(signUpName)) {
         nameMsg.innerHTML = "사용 가능합니다."

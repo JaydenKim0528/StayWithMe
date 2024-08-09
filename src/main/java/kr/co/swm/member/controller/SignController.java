@@ -6,6 +6,7 @@ import kr.co.swm.member.model.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor //final로 선언된 필드가 있다면, 이 필드들을 초기화하는 생성자를 자동으로 생성
 @Controller
-public class MemberController {
+public class SignController {
 
     private final MemberService memberService;
 
@@ -69,7 +70,12 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/signUp")
-    public String signUp(@Valid MemberDTO memberDTO) {
+    public String signUp(@Valid MemberDTO memberDTO, BindingResult bindingResult) {
+        // 유효성 검사에서 발생한 에러확인 -> 있을시 true, 없을시 false
+        // bindingResult -> model.Attribute 하지 않아도 Model 객체 바인딩
+        if (bindingResult.hasErrors()) {
+            return "member/sign";
+        }
         int result = memberService.setSignup(memberDTO);
         return "member/sign";
     }

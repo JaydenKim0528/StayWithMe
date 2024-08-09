@@ -1,4 +1,4 @@
-package kr.co.swm.member.utill;
+package kr.co.swm.member.util;
 
 import jakarta.annotation.PostConstruct;
 import net.nurigo.sdk.NurigoApp;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SmsCertificationUtill {
+public class SmsCertificationUtil {
     @Value("${coolsms.apikey}") // coolsms api 키
     private String apiKey;
 

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class MemberDTO {
     private Long userNo;
+
     //@NotBlank : null X, 공백이 아닌 문자 포함
     @NotBlank(message =  "아이디는 필수 입력값입니다")
     @Pattern(regexp = "^(?=.*[a-z])[a-z0-9]{6,12}$", message = "영문 소문자 + 숫자 6 ~ 12자리여야 합니다.")
