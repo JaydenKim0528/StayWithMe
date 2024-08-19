@@ -31,6 +31,7 @@ public class SellerDto {
     // 객실 정보
     private int roomNo;
     private int roomTypeNo;
+    private String roomTypeName;
     private String roomName;
     private String roomCheckIn;
     private String roomCheckOut;

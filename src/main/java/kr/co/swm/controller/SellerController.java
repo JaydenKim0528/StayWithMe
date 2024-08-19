@@ -30,6 +30,8 @@ public class SellerController {
 
     @GetMapping("/seller-main.do")
     public String mainDashBoard(Model model) {
+
+        // 관리자 번호(업소키)
         int accommodationNo = 1;
 
         // 업소 조회수 가져오기
@@ -141,12 +143,13 @@ public class SellerController {
     @GetMapping("/reservation.do")
     public String reservation(Model model) {
 
+        // 관리자 번호(업소키)
         int accommodationNo = 1;
 
         // 예약 및 결제 정보 가져오기
         List<SellerDto> reservation = seller.mainList(accommodationNo);
 
-        for(SellerDto item : reservation) {
+        for (SellerDto item : reservation) {
             System.out.println();
             System.out.println("= = = = = = reservation controller = = = = = =");
             System.out.println("예약 정보 : " + item.getReserveRoomName());
@@ -169,11 +172,11 @@ public class SellerController {
     // 특정 검색 조건으로 예약 리스트 조회
     @PostMapping("/reservation-search.do")
     public String reservationSearch(@RequestParam(value = "dateType", required = false) String dateType,
-                              @RequestParam(value = "startDate", required = false) String startDate,
-                              @RequestParam(value = "endDate", required = false) String endDate,
-                              @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-                              @RequestParam(value = "reservationStatus", required = false) String reservationStatus,
-                              Model model) {
+                                    @RequestParam(value = "startDate", required = false) String startDate,
+                                    @RequestParam(value = "endDate", required = false) String endDate,
+                                    @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                    @RequestParam(value = "reservationStatus", required = false) String reservationStatus,
+                                    Model model) {
 
         System.out.println("<<<<<<<<<<<< 입력값 확인 디버깅 >>>>>>>>>>>>>>");
         System.out.println("dateType: " + dateType);
@@ -183,12 +186,13 @@ public class SellerController {
         System.out.println("reservationStatus: " + reservationStatus);
         System.out.println("============================================");
 
+        // 관리자 번호(업소키)
         int accommodationNo = 1;
 
         // 예약 및 결제 정보 가져오기
         List<SellerDto> reservationSearch = seller.reservationSearch(accommodationNo, dateType, startDate, endDate, searchKeyword, reservationStatus);
 
-        for(SellerDto item : reservationSearch) {
+        for (SellerDto item : reservationSearch) {
             System.out.println();
             System.out.println("= = = = reservationSearch controller = = = = =");
             System.out.println("예약 정보 : " + item.getReserveRoomName());
@@ -216,7 +220,55 @@ public class SellerController {
     }
 
 
+//  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+//  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 
+    @GetMapping("/reservation-daily.do")
+    public String reservationDaily(@RequestParam(value = "date", required = false) String date, Model model) {
+
+        // 관리자 번호(업소키)
+        int accommodationNo = 1;
+
+        // 선택된 날짜가 없으면 오늘 날짜로 설정
+        LocalDate selectedDate = (date == null) ? LocalDate.now() : LocalDate.parse(date);
+        String selectedDateString = selectedDate.toString(); // yyyy-MM-dd 형식으로 날짜를 문자열로 변환
+        model.addAttribute("selectedDate", selectedDateString); // 선택된 날짜를 모델에 추가하여 뷰에 전달
+
+        // DB에서 선택된 날짜에 해당하는 객실 정보를 조회
+        List<SellerDto> roomData = seller.roomData(accommodationNo, selectedDateString);
+
+        // 조회된 객실 정보 디버깅 출력
+        for (SellerDto item : roomData) {
+            System.out.println();
+            System.out.println("========= Controller Room Data =========");
+            System.out.println("ROOM NO : " + item.getRoomNo());
+            System.out.println("ROOM TYPE : " + item.getRoomTypeName());
+            System.out.println("ROOM NAME : " + item.getRoomName());
+            System.out.println("ROOM CHECK IN : " + item.getRoomCheckIn());
+            System.out.println("ROOM CHECK OUT : " + item.getRoomCheckOut());
+            System.out.println("ROOM Status : " + item.getReservationStatus());
+            System.out.println("========================================");
+            System.out.println();
+        }
+
+        // 각 방의 예약 상태를 계산 및 업데이트
+        for (SellerDto room : roomData) {
+            String reservationStatus = room.getReservationStatus();
+
+            // 예약 상태에 따라 텍스트를 업데이트
+            if (reservationStatus == null || reservationStatus.equals("Cancelled")) {
+                room.setReservationStatus("예약 가능");
+            } else if (reservationStatus.equals("Confirmed")) {
+                room.setReservationStatus("예약중");
+            }
+        }
+
+        // 업데이트된 객실 정보를 모델에 추가하여 뷰에 전달
+        model.addAttribute("roomData", roomData);
+
+        // 예약 상태가 반영된 뷰 페이지를 반환
+        return "seller/reservation_daily";
+    }
 
 
 
@@ -227,6 +279,8 @@ public class SellerController {
     // 요금 페이지 로드(객실 이름 리스트 조회)
     @GetMapping("/basic-rate-list.do")
     public String basicList(Model model) {
+
+        // 관리자 번호(업소키)
         int accommodationNo = 1;
 
         // 객실 이름 조회 호출(Service)
@@ -242,6 +296,8 @@ public class SellerController {
     @GetMapping("/getRoomRates")
     @ResponseBody
     public Map<String, Object> rateSearch(@RequestParam("roomName") String roomName) {
+
+        // 관리자 번호(업소키)
         int accommodationNo = 1;
 
         // 기본 요금 조회
@@ -250,7 +306,7 @@ public class SellerController {
         // 추가 요금 조회
         List<SellerDto> extraRateList = seller.extraRateList(roomName, accommodationNo);
 
-        for(SellerDto extraRate : extraRateList) {
+        for (SellerDto extraRate : extraRateList) {
 
             List<SellerDto.ExtraDto> extraRates = extraRate.getExtraRates();
             for (SellerDto.ExtraDto extraDto : extraRates) {
@@ -357,6 +413,8 @@ public class SellerController {
     // 기간 수정 페이지 로드(추가 요금 정보 조회)
     @GetMapping("/season-period.do")
     public String seasonList(Model model) {
+
+        // 관리자 번호(업소키)
         int accommodationNo = 1;  // 실제 accommodationNo에 맞게 설정
 
         // 추가 요금 조회
@@ -372,6 +430,8 @@ public class SellerController {
     @DeleteMapping("/extra-delete")
     @ResponseBody
     public Map<String, Object> extraRateDelete(@RequestParam("extraName") String extraName) {
+
+        // 관리자 번호(업소키)
         int accommodationNo = 1;  // 실제 accommodationNo에 맞게 설정
         Map<String, Object> response = new HashMap<>();
 
@@ -388,6 +448,8 @@ public class SellerController {
     @PostMapping("/periods-update")
     @ResponseBody
     public Map<String, Object> updatePeriods(@ModelAttribute SellerDto sellerDto) {
+
+        // 관리자 번호(업소키)
         int accommodationNo = 1; // 실제 accommodationNo에 맞게 설정
 
         // DTO의 내용을 출력하여 확인
@@ -407,5 +469,4 @@ public class SellerController {
 
 
 }
-
 

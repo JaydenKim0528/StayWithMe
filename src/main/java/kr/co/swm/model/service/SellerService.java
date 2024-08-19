@@ -19,6 +19,8 @@ public interface SellerService {
     // 예약 검색 조회
     List<SellerDto> reservationSearch(int accommodationNo, String dateType, String startDate, String endDate, String searchKeyword, String reservationStatus);
 
+    // 일별 예약 조회
+    List<SellerDto> roomData(int accommodationNo, String selectedDate);
 
 //  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 

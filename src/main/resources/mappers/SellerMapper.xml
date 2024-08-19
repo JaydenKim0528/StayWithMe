@@ -24,6 +24,7 @@
         <!-- 객실 정보 -->
         <result column="ROOM_NO" property="roomNo"/>
         <result column="ROOM_TYPE_NO" property="roomTypeNo"/>
+        <result column="ROOM_TYPE_NAME" property="roomTypeName"/>
         <result column="ROOM_NAME" property="roomName"/>
         <result column="CHECK_IN_TIME" property="roomCheckIn"/>
         <result column="CHECK_OUT_TIME" property="roomCheckOut"/>
@@ -163,6 +164,28 @@
     </select>
 
 
+<!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
+<!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
+
+
+    <!-- 일자별 객실 예약 정보 조회 -->
+    <select id="roomData" resultMap="seller">
+        SELECT r.ROOM_NO,
+               rt.ROOM_TYPE_NAME,
+               r.ROOM_NAME,
+               r.CHECK_IN_TIME,
+               r.CHECK_OUT_TIME,
+               MAX(re.CHECK_IN_DATE) AS CHECK_IN_DATE,
+               MAX(re.CHECK_OUT_DATE) AS CHECK_OUT_DATE,
+               re.RESERVATION_STATUS
+        FROM ROOM r
+        JOIN ROOM_TYPE rt ON r.ROOM_TYPE_NO = rt.ROOM_TYPE_NO
+        LEFT JOIN RESERVE re ON r.ROOM_NO = re.ROOM_NO
+        AND re.RESERVATION_STATUS = 'Confirmed'
+        AND (#{selectedDate} BETWEEN re.CHECK_IN_DATE AND re.CHECK_OUT_DATE)
+        WHERE r.ACCOMMODATION_NO = #{accommodationNo}
+        GROUP BY r.ROOM_NO, rt.ROOM_TYPE_NAME, r.ROOM_NAME, r.CHECK_IN_TIME, r.CHECK_OUT_TIME, re.RESERVATION_STATUS
+    </select>
 
 
 
@@ -170,8 +193,7 @@
 
 
 
-
-    <!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
+<!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
 <!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
 
     <!-- 객실 이름 리스트 조회 -->
