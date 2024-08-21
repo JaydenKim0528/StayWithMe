@@ -21,13 +21,6 @@ public class TestController {
         return "contact";
     }
 
-    @GetMapping("/booking")
-    public String booking() {
-        return "booking";
-    }
-
-
-
     @GetMapping("/cancel")
     public String cancel() {
         return "cancel-booking";
