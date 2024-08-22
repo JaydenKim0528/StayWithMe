@@ -9,13 +9,13 @@
   <!-- jQuery -->
   <script
           type="text/javascript"
-          src="https://code.jquery.com/jquery-1.12.4.min.js"
-  ></script>
+          src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
   <!-- iamport.payment.js -->
   <script
           type="text/javascript"
-          src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
-  ></script>
+          src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
   <script>
     var IMP = window.IMP;
     IMP.init("imp67844376");
@@ -67,52 +67,53 @@
 </div>
 <div class="container1">
   <div class="section">
-    <h2>숙소 이름</h2>
+    <h1>숙소 이름</h1>
     <h3>객실 이름</h3>
     <div class="form-group form-inline">
-      <label for="check-in" style="flex: none;">입실일</label>
-      <input type="text" id="check-in" placeholder="오후 1 : 00" readonly />
-      <label for="check-out" style="flex: none;">퇴실일</label>
-      <input type="text" id="check-out" placeholder="오전 11 : 00" readonly />
+      <label for="check-out"> 일정 </label>
+      <input type="text" id="check-out" placeholder="2024/8/23(금) 15:00" style="border: none; display: block;" readonly /><br>
+      <input type="text" id="check" placeholder=" ~ 2024/8/24(토) 11:00 (1박)" style="border: none;" readonly />
     </div>
     <div class="form-group">
+      <label>기준 인원</label>
+      <input type="text" placeholder="기준 인원 수" readonly />
       <label>최대 인원</label>
       <input type="text" placeholder="최대 인원 수" readonly />
+
     </div>
   </div>
 
   <div class="section">
     <h3>예약자 정보</h3>
     <div class="form-group">
-      <label for="name">이름</label>
       <input type="text" id="name" placeholder="이름" />
     </div>
-    <div class="form-group form-inline">
+    <div class="form-group">
       <input type="text" id="phone" placeholder="전화번호" style="flex: 1;" />
-      <button type="button" onclick="showVerificationInput()">인증하기</button>
+<!--      <button type="button" onclick="showVerificationInput()">인증하기</button>-->
     </div>
-    <div class="form-group" id="verification-group" style="display: none;">
-      <label for="verification-code">인증번호</label>
-      <input type="text" id="verification-code" placeholder="인증번호 입력" disabled />
-      <button type="button" onclick="verifyCode()">인증하기</button>
-      <div id="timer" class="hidden">05:00</div>
-      <a href="#" id="resend-code" class="hidden" onclick="resetTimer(event)">인증번호 다시받기</a>
-    </div>
-    <div class="form-group checkbox-group">
-      <input type="checkbox" id="sameAsBooker">
-      <label for="sameAsBooker" style="display: inline; margin-left: 5px;">예약자와 동일</label>
-    </div>
+<!--    <div class="form-group" id="verification-group" style="display: none;">-->
+<!--      <label for="verification-code">인증번호</label>-->
+<!--      <input type="text" id="verification-code" placeholder="인증번호 입력" disabled />-->
+<!--      <button type="button" onclick="verifyCode()">인증하기</button>-->
+<!--      <div id="timer" class="hidden">05:00</div>-->
+<!--      <a href="#" id="resend-code" class="hidden" onclick="resetTimer(event)">인증번호 다시받기</a>-->
+<!--    </div>-->
+<!--    <div class="form-group checkbox-group">-->
+<!--      <input type="checkbox" id="sameAsBooker">-->
+<!--      <label for="sameAsBooker" style="display: inline; margin-left: 5px;">예약자와 동일</label>-->
+<!--    </div>-->
   </div>
 
   <div class="section">
     <label for="coupon">쿠폰</label>
     <div class="button-group">
-      <select id="coupon">
+      <select id="coupon" onchange="applyCoupon()">
         <option value="" selected>선택안함</option>
-        <option value="terms1">이용약관 1</option>
-        <option value="terms2">이용약관 2</option>
+        <option value="terms1" data-discount="5000">이용약관 1 (5000원 할인)</option>
+        <option value="terms2" data-discount="10000">이용약관 2 (10000원 할인)</option>
       </select>
-      <button>적용</button>
+      <button onclick="applyCoupon()">적용</button>
     </div>
   </div>
 
@@ -123,59 +124,79 @@
     <label><input type="checkbox" id="term3"> 샬라샬라</label>
     <label><input type="checkbox" id="term4"> 샬라샬라</label>
   </div>
-  <div>
-    <h3>30000</h3>
-    <h1>1  2000</h1>
+
+  <div class="price-info">
+    <div>
+      객실 가격 ( 1 박 기준 ): <span class="price">30000</span>
+    </div>
+    <hr style="color: black;background-color: black">
+    <div>
+      총 결제 금액 : <span class="final-price" id="final-price">30000</span>
+    </div>
   </div>
-  <button type="button" onclick="requestPay()" >결제하기</button>
+
+  <button type="button" class="pay-button" onclick="requestPay()">결제하기</button>
 </div>
 
 
-
 <script>
-  let timerInterval;
+  const basePrice = 30000;
 
-  function showVerificationInput() {
-    document.getElementById('verification-group').style.display = 'block';
-    document.getElementById('verification-code').disabled = false;
-    document.getElementById('timer').classList.remove('hidden');
-    document.getElementById('resend-code').classList.remove('hidden');
-    startTimer();
+  function applyCoupon() {
+    const couponSelect = document.getElementById('coupon');
+    const selectedOption = couponSelect.options[couponSelect.selectedIndex];
+    const discount = selectedOption.getAttribute('data-discount') || 0;
+
+    const finalPrice = basePrice - discount;
+
+    document.getElementById('final-price').textContent = finalPrice;
   }
 
-  function startTimer() {
-    clearInterval(timerInterval);
-    let time = 300; // 5 minutes in seconds
-    const timerElement = document.getElementById('timer');
+</script>
+<!--<script>-->
+<!--  let timerInterval;-->
 
-    timerInterval = setInterval(() => {
-      let minutes = Math.floor(time / 60);
-      let seconds = time % 60;
+<!--  function showVerificationInput() {-->
+<!--    document.getElementById('verification-group').style.display = 'block';-->
+<!--    document.getElementById('verification-code').disabled = false;-->
+<!--    document.getElementById('timer').classList.remove('hidden');-->
+<!--    document.getElementById('resend-code').classList.remove('hidden');-->
+<!--    startTimer();-->
+<!--  }-->
 
-      minutes = minutes < 10 ? '0' + minutes : minutes;
-      seconds = seconds < 10 ? '0' + seconds : seconds;
+<!--  function startTimer() {-->
+<!--    clearInterval(timerInterval);-->
+<!--    let time = 300; // 5 minutes in seconds-->
+<!--    const timerElement = document.getElementById('timer');-->
 
-      timerElement.textContent = `${minutes}:${seconds}`;
+<!--    timerInterval = setInterval(() => {-->
+<!--      let minutes = Math.floor(time / 60);-->
+<!--      let seconds = time % 60;-->
 
-      if (time <= 0) {
-        clearInterval(timerInterval);
-        document.getElementById('verification-code').disabled = true;
-        alert('시간이 초과되었습니다. 다시 인증번호를 받아주세요.');
-      }
+<!--      minutes = minutes < 10 ? '0' + minutes : minutes;-->
+<!--      seconds = seconds < 10 ? '0' + seconds : seconds;-->
 
-      time--;
-    }, 1000);
-  }
+<!--      timerElement.textContent = `${minutes}:${seconds}`;-->
 
-  function resetTimer(event) {
-    event.preventDefault();
-    startTimer();
-  }
+<!--      if (time <= 0) {-->
+<!--        clearInterval(timerInterval);-->
+<!--        document.getElementById('verification-code').disabled = true;-->
+<!--        alert('시간이 초과되었습니다. 다시 인증번호를 받아주세요.');-->
+<!--      }-->
 
-  function verifyCode() {
-    // 인증번호 검증 로직을 추가하세요
-    alert('인증이 완료되었습니다.');
-  }
+<!--      time&#45;&#45;;-->
+<!--    }, 1000);-->
+<!--  }-->
+
+<!--  function resetTimer(event) {-->
+<!--    event.preventDefault();-->
+<!--    startTimer();-->
+<!--  }-->
+
+<!--  function verifyCode() {-->
+<!--    // 인증번호 검증 로직을 추가하세요-->
+<!--    alert('인증이 완료되었습니다.');-->
+<!--  }-->
 </script>
 
 
