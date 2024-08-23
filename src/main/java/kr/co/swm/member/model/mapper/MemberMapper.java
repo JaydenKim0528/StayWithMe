@@ -1,6 +1,7 @@
 package kr.co.swm.member.model.mapper;
 
 import kr.co.swm.member.model.dto.AdminDTO;
+import kr.co.swm.member.model.dto.MemberDTO;
 import kr.co.swm.member.model.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
