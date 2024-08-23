@@ -42,4 +42,6 @@ public interface MemberService {
     void updatePassword(String userId, String newPassword);
 
     void updatePhoneNumber(String newPhone, String userId);
+
+    void updateUserStatus(String userId, String status, String withdrawalReason);
 }

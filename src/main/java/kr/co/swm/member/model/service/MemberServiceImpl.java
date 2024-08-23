@@ -13,7 +13,6 @@ import kr.co.swm.member.util.SmsCertificationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -111,7 +110,6 @@ public class MemberServiceImpl implements MemberService {
         System.out.println(signRole);
         // 사용자 정보 로드 및 권한 초기화
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(userId, signRole);
-        System.out.println(userDetails.getPassword());
         String role = "ROLE_USER"; // 기본 권한 (기본값은 일반 사용자)
         Long accommAdminKey = null; // 숙소 관리자 키 초기화
         Long userNo = null;
@@ -240,9 +238,27 @@ public class MemberServiceImpl implements MemberService {
     // 마이페이지 새로운 휴대전화 번호 업데이트
     @Override
     public void updatePhoneNumber(String newPhone, String userId) {
-        UserDTO userDTO = memberMapper.findByUserInfo(userId);
+        memberMapper.findByUserInfo(userId);
 
         // 새 전화번호 업데이트
         memberMapper.updatePhoneNumber(newPhone, userId);
+    }
+
+    //마이페이지 회원 탈퇴 (회원상태, 탈퇴사유 업데이트)
+    @Override
+    public void updateUserStatus(String userId, String status, String reason) {
+        UserDTO userDTO = memberMapper.findByUserInfo(userId);
+
+        userDTO.setUserId(userId);
+        userDTO.setUserStatus(status);
+        userDTO.setWithdrawalReason(reason);
+        userDTO.setDeletedDate(LocalDateTime.now()); //탈퇴일 현재 시간으로 설정
+
+        System.out.println("service : " + userDTO.getUserId());
+        System.out.println("service : " + userDTO.getUserStatus());
+        System.out.println("service : " + userDTO.getWithdrawalReason());
+        System.out.println("service : " + userDTO.getDeletedDate());
+
+        memberMapper.updateUserStatus(userDTO);
     }
 }

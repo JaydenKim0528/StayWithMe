@@ -40,4 +40,7 @@ public interface MemberMapper {
 
     // 마이페이지 휴대전화 번호 변경
     void updatePhoneNumber(@Param("newPhone") String newPhone, @Param("userId") String userId);
+
+    // 마이페이지 회원탈퇴
+    void updateUserStatus(@Param("userDTO") UserDTO userDTO);
 }

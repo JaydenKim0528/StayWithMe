@@ -11,6 +11,9 @@
         <result column="USER_PHONE" property="userPhone"></result>
         <result column="CREATED_DATE" property="createdDate"></result>
         <result column="DELETED_DATE" property="deletedDate"></result>
+        <result column="STATUS" property="userStatus"></result>
+        <result column="WITHDRAWAL_REASON" property="withdrawalReason"></result>
+
     </resultMap>
 
     <resultMap id="adminResultMap" type="kr.co.swm.member.model.dto.AdminDTO">
@@ -99,6 +102,12 @@
         WHERE USER_ID = #{userId}
     </update>
 
+    <!--마이페이지 회원 탈퇴, 회원상태, 탈퇴사유 업데이트-->
+    <update id="updateUserStatus">
+        UPDATE USER
+        SET STATUS = #{userDTO.userStatus}, WITHDRAWAL_REASON = #{userDTO.withdrawalReason}, DELETED_DATE = #{userDTO.deletedDate}
+        WHERE USER_ID = #{userDTO.userId}
+    </update>
 
 </mapper>
 
