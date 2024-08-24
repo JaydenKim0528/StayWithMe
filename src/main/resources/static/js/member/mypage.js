@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("phoneMsg").innerText = '';
         document.getElementById("codeMsg").innerText = '';
         document.getElementById("timerMsg").innerHTML = '';
+        clearInterval(timer);
     });
 
     // 새로운 비밀번호 유효성 검사 함수
@@ -258,9 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // SMS 인증번호 요청 함수 호출
             requestSMS();
 
-            // 인증번호 전송 버튼 비활성화
-            this.disabled = true;
-
             // 타이머 시작
             startTimer();
         }
@@ -356,7 +354,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-
     /*-------회원 탈퇴 섹션------*/
     document.getElementById("withdrawalForm").addEventListener("submit", function(event) {
         event.preventDefault(); // 기본 제출 막음
@@ -404,6 +401,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-
 });
