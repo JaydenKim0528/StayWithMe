@@ -20,6 +20,21 @@ public interface SellerMapper {
 
 //  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 
+    // 업소 정보 업데이트
+    int accommodationUpdate(@Param("seller") SellerDto seller);
+
+    // 객실 정보 업데이트
+    int roomUpdate(@Param("room") SellerDto.RoomDto room);
+
+    // 신규 객실 등록
+    int insertRoom(@Param("room") SellerDto.RoomDto room);
+
+    // 부대시설 업데이트
+    int facilitiesUpdate(@Param("seller") SellerDto seller);
+
+
+//  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
     // 예약 검색 조회
     List<SellerDto> reservationSearch(@Param("accommodationNo") Long accommodationNo,
                                       @Param("dateType") String dateType,

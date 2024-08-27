@@ -164,6 +164,30 @@ public class SellerDto {
 // □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 // □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 
+    // 다중 객실 정보를 위한 리스트
+    private List<RoomDto> rooms = new ArrayList<>();
+
+    @Getter
+    @Setter
+    public static class RoomDto {
+        private int roomNo;
+        private String roomName;
+        private String roomCheckIn;
+        private String roomCheckOut;
+        private int roomPersonnel;
+        private int roomMaxPersonnel;
+        private int weekdayRate;
+        private int fridayRate;
+        private int saturdayRate;
+        private int sundayRate;
+
+        public RoomDto() {
+            // 기본 초기화
+            this.roomNo = 0;
+            this.roomName = "";
+        }
+    }
+
 }
 
 

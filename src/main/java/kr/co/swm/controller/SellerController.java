@@ -692,5 +692,21 @@ public class SellerController {
         String currentUrl = request.getRequestURI();
         model.addAttribute("currentUrl", currentUrl);
     }
+
+    @PostMapping("/accommodation-update")
+    public String accommodationUpdate(SellerDto sellerDto) {
+        int result = seller.accommodationUpdate(sellerDto);
+
+        if(result > 0) {
+            return "redirect:/acUpdate";
+        } else {
+            return "error";
+        }
+    }
+
+
+
+
+
 }
 

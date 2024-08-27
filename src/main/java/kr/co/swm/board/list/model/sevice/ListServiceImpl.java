@@ -2,6 +2,7 @@ package kr.co.swm.board.list.model.sevice;
 
 
 import kr.co.swm.board.list.model.DTO.ListDTO;
+import kr.co.swm.board.list.model.DTO.MainSearchDTO;
 import kr.co.swm.board.list.model.DTO.PageInfoDTO;
 import kr.co.swm.board.list.model.DTO.SearchDTO;
 import kr.co.swm.board.mapper.ListMapper;
@@ -48,25 +49,14 @@ public class ListServiceImpl implements ListService {
     }
 
     @Override
-    public int getListCount(SearchDTO searchDTO) {
-
-        System.out.println("<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>");
-        System.out.println("Main Search : " + searchDTO.getMainSearch());
-        System.out.println("BoardType : " + searchDTO.getBoardType());
-        System.out.println("<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>");
-
-        int listCount = listMapper.getListCount(searchDTO);
-
-        System.out.println("========== ServiceImpl List Count ==========");
-        System.out.println(listCount);
-        System.out.println("==========================================");
-        return listCount;
+    public int getListCount(MainSearchDTO mainSearchDTO) {
+        return listMapper.getListCount(mainSearchDTO);
     }
 
     @Override
-    public List<ListDTO> getList(SearchDTO searchDTO) {
+    public List<ListDTO> getList(MainSearchDTO mainSearchDTO) {
 
-        List<ListDTO> getList = listMapper.getList(searchDTO);
+        List<ListDTO> getList = listMapper.getList(mainSearchDTO);
         for(ListDTO item : getList) {
             System.out.println("========== ServiceImpl Get List ==========");
             System.out.println("Board Name : " + item.getBoardName());
@@ -80,11 +70,26 @@ public class ListServiceImpl implements ListService {
     }
 
     @Override
-    public List<String> getFacilities(SearchDTO searchDTO) {
-        List<String> facilities = listMapper.getFacilities(searchDTO);
+    public List<String> getFacilities(MainSearchDTO mainSearchDTO) {
+        List<String> facilities = listMapper.getFacilities(mainSearchDTO);
         return facilities.stream().distinct().collect(Collectors.toList());
     }
 
 
+    // 기간 게시물 수 조회
+    @Override
+    public int DateListCount(MainSearchDTO mainDTO) {
+        return listMapper.DateListCount(mainDTO);
+    }
+    // 기간 게시물 조회
+    @Override
+    public List<ListDTO> dateSearch(MainSearchDTO mainDTO) {
+        return listMapper.dateSearch(mainDTO);
+    }
+    // 기간 부가시설 조회
+    @Override
+    public List<String> dateFacil(MainSearchDTO mainDTO) {
+        return listMapper.dateFacil(mainDTO);
+    }
 
 }

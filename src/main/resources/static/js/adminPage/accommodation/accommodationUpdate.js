@@ -1,54 +1,33 @@
-
-
-
+// DOM이 완전히 로드된 후 실행될 스크립트
 document.addEventListener('DOMContentLoaded', function() {
-    var selectedType = document.getElementById("selectedAccommodationType").value; // 숨겨진 input의 값을 가져옴
-    var options = document.getElementsByClassName("accommodationType"); // 모든 라디오 버튼을 가져옴
+    // 숨겨진 input에서 선택된 숙소 유형을 가져옴
+    var selectedType = document.getElementById("selectedAccommodationType").value;
+    var options = document.getElementsByClassName("accommodationType");
 
+    // 해당 숙소 유형에 해당하는 라디오 버튼을 선택
     for (var i = 0; i < options.length; i++) {
         if (options[i].value === selectedType) {
-            options[i].checked = true; // 값이 일치하면 해당 라디오 버튼을 선택함
+            options[i].checked = true;
             break;
         }
     }
 });
 
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     var checkboxes = document.querySelectorAll('.accommodationType');
-//
-//     checkboxes.forEach(function(checkbox) {
-//         checkbox.addEventListener('change', function() {
-//             if (this.checked) {
-//                 checkboxes.forEach(function(box) {
-//                     if (box !== checkbox) {
-//                         box.checked = false;
-//                     }
-//                 });
-//             }
-//         });
-//     });
-// });
-
-
-
-/**
- * 인원 증가/감소 버튼의 이벤트 리스너 추가
- */
+// 인원 증가/감소 버튼에 대한 이벤트 리스너 추가
 document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('decrement')) {
         var roomId = event.target.getAttribute('data-room-id');
         var type = event.target.getAttribute('data-type');
         var inputField;
 
+        // 인원 감소 처리
         if (type === 'basic') {
             inputField = document.getElementById('basicPeople-' + roomId);
         } else if (type === 'max') {
             inputField = document.getElementById('maxPeople-' + roomId);
-        } else if (type === 'roomValues') {
-            inputField = document.getElementById('roomValues-' + roomId);
         }
 
+        // 현재 값에서 1 감소
         var currentValue = parseInt(inputField.value);
         if (currentValue > 1) {
             inputField.value = currentValue - 1;
@@ -60,14 +39,14 @@ document.addEventListener('click', function(event) {
         var type = event.target.getAttribute('data-type');
         var inputField;
 
+        // 인원 증가 처리
         if (type === 'basic') {
             inputField = document.getElementById('basicPeople-' + roomId);
         } else if (type === 'max') {
             inputField = document.getElementById('maxPeople-' + roomId);
-        }else if (type === 'roomValues') {
-            inputField = document.getElementById('roomValues-' + roomId);
         }
 
+        // 현재 값에서 1 증가
         var currentValue = parseInt(inputField.value);
         inputField.value = currentValue + 1;
     }
@@ -76,33 +55,20 @@ document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('btn-delete')) {
         var roomId = event.target.getAttribute('data-room-id');
         var roomContainer = document.getElementById('room-' + roomId);
-        roomContainer.remove();
+        roomContainer.remove(); // 객실 요소 제거
         delete roomFiles[roomId]; // 해당 객실의 이미지 파일 배열 삭제
     }
 });
-//
-// document.addEventListener("DOMContentLoaded", function() {
-//     // 숨겨진 input에서 roomCategory 값을 가져옴
-//     var roomCategory = document.getElementById('roomCategory').value;
-//
-//     // 해당 roomCategory 값과 일치하는 라디오 버튼을 선택
-//     var radioButtons = document.querySelectorAll(`input[type="radio"][name="type"]`);
-//     radioButtons.forEach(function(radio) {
-//         if (radio.getAttribute('data-tag') === roomCategory) {
-//             radio.checked = true; // 라디오 버튼 체크
-//         }
-//     });
-// });
 
-
-document.querySelectorAll('.tag input[type="radio"]').forEach(function (radio) {
-    radio.addEventListener('change', function () {
+// 숙소 유형 변경 시 선택된 값을 hidden input에 반영
+document.querySelectorAll('.tag input[type="radio"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
         var typeInput = document.getElementById('type');
         typeInput.value = this.getAttribute('data-tag');
     });
 });
 
-
+// 폼 유효성 검사 및 제출 방지
 document.querySelector('form').addEventListener('submit', function(event) {
     if (!this.checkValidity()) {
         event.preventDefault(); // 폼 제출 중지
@@ -110,22 +76,20 @@ document.querySelector('form').addEventListener('submit', function(event) {
     }
 });
 
-
-/**
- * form data 생성
- */
+// 폼 데이터 생성 및 AJAX 요청 전송
 document.getElementById('accommodationForm').addEventListener('submit', function(event) {
     event.preventDefault(); // 기본 폼 제출 방지
 
     // FormData 객체 생성
     const formData = new FormData(this);
 
-
     // 부대시설 체크박스 선택된 값들을 FormData에 추가
     const selectedTags = [];
     document.querySelectorAll('.tags input[type="checkbox"]:checked').forEach(tag => {
         selectedTags.push(tag.getAttribute('data-tag'));
     });
+    formData.append('facilities', selectedTags.join(', '));
+
     // 에디터의 내용을 FormData에 추가
     const editorContent = document.getElementById('editor').innerHTML;
     formData.append('accommodationInfo', editorContent);
@@ -136,67 +100,41 @@ document.getElementById('accommodationForm').addEventListener('submit', function
         formData.append('accommodationType', selectedType.value);
     }
 
-    // 대표사진 파일이 있으면 FormData에 추가
-    if (mainPhotoFile) {
-        formData.append('mainPhoto', mainPhotoFile);
-    }
-
     // 객실 정보 추가
-    for (let i = 1; i <= roomCount; i++) {
-        // Room Name
-        formData.append(`rooms[${i}].roomName`, document.querySelector(`#room-${i} input[name="roomName"]`).value);
+    document.querySelectorAll('[id^="room-"]').forEach(function(roomElement, index) {
+        const roomId = index + 1;
+        formData.append(`rooms[${roomId}].roomName`, roomElement.querySelector('input[name="roomName"]').value);
+        formData.append(`rooms[${roomId}].weekdayRate`, roomElement.querySelector('input[name="weekdayRate"]').value);
+        formData.append(`rooms[${roomId}].fridayRate`, roomElement.querySelector('input[name="fridayRate"]').value);
+        formData.append(`rooms[${roomId}].saturdayRate`, roomElement.querySelector('input[name="saturdayRate"]').value);
+        formData.append(`rooms[${roomId}].sundayRate`, roomElement.querySelector('input[name="sundayRate"]').value);
+        formData.append(`rooms[${roomId}].standardOccupation`, roomElement.querySelector('#basicPeople-' + roomId).value);
+        formData.append(`rooms[${roomId}].maxOccupation`, roomElement.querySelector('#maxPeople-' + roomId).value);
+        formData.append(`rooms[${roomId}].checkInTime`, roomElement.querySelector('#checkInTime-' + roomId).value);
+        formData.append(`rooms[${roomId}].checkOutTime`, roomElement.querySelector('#checkOutTime-' + roomId).value);
+    });
 
-        // Room Rates
-        formData.append(`rooms[${i}].weekdayRate`, document.querySelector(`#room-${i} input[name="weekdayRate"]`).value);
-        formData.append(`rooms[${i}].fridayRate`, document.querySelector(`#room-${i} input[name="fridayRate"]`).value);
-        formData.append(`rooms[${i}].saturdayRate`, document.querySelector(`#room-${i} input[name="saturdayRate"]`).value);
-        formData.append(`rooms[${i}].sundayRate`, document.querySelector(`#room-${i} input[name="sundayRate"]`).value);
-
-
-        // Standard and Max Occupation
-        formData.append(`rooms[${i}].standardOccupation`, document.getElementById(`basicPeople-${i}`).value);
-        formData.append(`rooms[${i}].maxOccupation`, document.getElementById(`maxPeople-${i}`).value);
-
-        // Check-in and Check-out Time
-        formData.append(`rooms[${i}].checkInTime`, document.getElementById(`checkInTime-${i}`).value);
-        formData.append(`rooms[${i}].checkOutTime`, document.getElementById(`checkOutTime-${i}`).value);
-
-
-
-        formData.append(`rooms[${i}].endIndex`, JSON.stringify(endIndex[i]));
-
-        // Room Images
-        if (roomFiles[i]) {
-            roomFiles[i].forEach(image => {
-                formData.append('previewFiles', image)
-            });
-        }
-    }
-
-    /**
-     * AJAX 요청 생성
-     */
-    fetch('/update-accommodation', {
+    // AJAX 요청 생성
+    fetch('/accommodation-update', {
         method: 'POST',
         body: formData,
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                alert('업소 등록이 완료되었습니다!');
-                window.location.href = '/enroll';
-            } else {
-                alert('업소 등록 중 오류가 발생했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert('업소 등록이 완료되었습니다!');
+            window.location.href = '/enroll';
+        } else {
             alert('업소 등록 중 오류가 발생했습니다.');
-        });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('업소 등록 중 오류가 발생했습니다.');
+    });
 });
-

@@ -21,7 +21,6 @@ public class ListDTO {
     private String checkInDate;  // 체크인 날짜
     private String checkOutDate; // 체크아웃 날짜
 
-
     private String filePath;    // 파일경로
     private String fileName;    // 파일 명
 }

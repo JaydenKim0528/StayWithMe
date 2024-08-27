@@ -93,37 +93,65 @@ public class AccommodationServiceImpl implements AccommodationService {
 
     @Override
     public List<SellerDto> roomsList(Long sellerId, SellerDto sellerDto) {
-
-
         // SellerDto 리스트를 가져옵니다.
         List<SellerDto> rooms = mapper.roomsList(sellerId);
-
 
         // 각 SellerDto 객체에 대해 rates 데이터를 처리합니다.
         for (SellerDto room : rooms) {
             int roomNo = room.getRoomNo();
+
             // rates 리스트를 가져옵니다.
             List<SellerDto> rates = mapper.getRates(roomNo);
-            for (SellerDto rate : rates) {
 
+            // rates가 제대로 불러와지는지 확인
+            if (rates == null || rates.isEmpty()) {
+                System.out.println("Rates is null or empty for roomNo: " + roomNo);
+                continue;
+            }
+
+            System.out.println("Rates for roomNo: " + roomNo);
+            for (SellerDto rate : rates) {
+                System.out.println("dayNo: " + rate.getBasicDayNo() + ", rate: " + rate.getBasicRate());
+            }
+
+            for (SellerDto rate : rates) {
                 int dayNo = rate.getBasicDayNo();
                 int rateValue = rate.getBasicRate();
-                // 예시로 DAY_NO 값이 1인 경우, weekday 변수에 RATE 값을 저장합니다.
-                if (dayNo == 1) {
-                    room.setWeekdayRate(rateValue);
-                    // 다른 로직이 필요한 경우 추가 구현
-                } else if (dayNo == 2) {
-                    room.setFridayRate(rateValue);
-                } else if (dayNo == 3) {
-                    room.setSaturdayRate(rateValue);
-                } else if (dayNo == 4) {
-                    room.setSundayRate(rateValue);
+                switch (dayNo) {
+                    case 1:
+                        room.setWeekdayRate(rateValue);
+                        break;
+                    case 2:
+                        room.setFridayRate(rateValue);
+                        break;
+                    case 3:
+                        room.setSaturdayRate(rateValue);
+                        break;
+                    case 4:
+                        room.setSundayRate(rateValue);
+                        break;
+                    default:
+                        System.out.println("Unknown dayNo: " + dayNo);
+                        break;
                 }
             }
         }
+
         // 최종적으로 SellerDto 리스트를 반환합니다.
+        for (SellerDto item : rooms) {
+            System.out.println("========== ServiceImpl rooms Data Check ==========");
+            System.out.println("roomNo : " + item.getRoomNo());
+            System.out.println("weekdayRate : " + item.getWeekdayRate());
+            System.out.println("fridayRate : " + item.getFridayRate());
+            System.out.println("saturdayRate : " + item.getSaturdayRate());
+            System.out.println("sundayRate : " + item.getSundayRate());
+            System.out.println("==================================================");
+        }
+
         return rooms;
     }
+
+
 
     @Override
     public List<String> facilitiesList(Long sellerKey) {

@@ -341,11 +341,19 @@
   });
 
 
-  $('#checkin_date, #checkout_date').datepicker({
-	  'format': 'm/d/yyyy',
-	  'autoclose': true
-	});
+  $(document).ready(function() {
+      $('#checkin_date').datepicker({
+          format: 'yyyy/mm/dd',
+          language: 'ko',  // 한국어 설정
+          autoclose: true
+      });
 
+      $('#checkout_date').datepicker({
+          format: 'yyyy/mm/dd',
+          language: 'ko',  // 한국어 설정
+          autoclose: true
+      });
+  });
 
 
 

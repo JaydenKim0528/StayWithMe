@@ -29,7 +29,7 @@
 
         <result column="BASIC_RATE_NO" property="roomRateNo"/>
         <result column="DAY_NO" property="basicDayNo"/>
-        <result column="RATE" property="basicRate"/>
+        <result column="BASIC_RATE" property="basicRate"/>
 
 
     </resultMap>
@@ -135,7 +135,10 @@
     </select>
 
     <select id="getRates" resultMap="accommodation">
-        select * from basic_rate
+        select ROOM_NO,
+               DAY_NO,
+               BASIC_RATE
+        from basic_rate
         where room_no = #{roomNo}
     </select>
 

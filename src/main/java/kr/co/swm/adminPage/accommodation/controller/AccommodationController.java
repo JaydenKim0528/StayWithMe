@@ -9,14 +9,11 @@ import kr.co.swm.adminPage.accommodation.model.service.AccommodationServiceImpl;
 import kr.co.swm.adminPage.accommodation.util.UploadFile;
 import kr.co.swm.jwt.util.JWTUtil;
 import kr.co.swm.model.dto.SellerDto;
-import kr.co.swm.model.dto.WebDto;
-import kr.co.swm.jwt.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -109,11 +106,46 @@ public class AccommodationController {
 
         SellerDto list = accommodationService.accommodationList(sellerId);
         List<SellerDto> rooms = accommodationService.roomsList(sellerId, sellerDto);
+
+        for(SellerDto item : rooms) {
+            System.out.println("========== ");
+            System.out.println();
+            System.out.println();
+            System.out.println();
+        }
+
+
         List<String> facilities = accommodationService.facilitiesList(sellerId);
+
+        // 디버깅을 위한 데이터 출력
+        if (list != null) {
+            System.out.println("Accommodation Details: " + list.toString());
+        } else {
+            System.out.println("No accommodation found for sellerId: " + sellerId);
+        }
+
+        if (rooms != null && !rooms.isEmpty()) {
+            for (SellerDto room : rooms) {
+                System.out.println("Room Details: " + room.toString());
+            }
+        } else {
+            System.out.println("No rooms found for sellerId: " + sellerId);
+        }
+
+        if (facilities != null && !facilities.isEmpty()) {
+            System.out.println("Facilities: " + facilities.toString());
+        } else {
+            System.out.println("No facilities found for sellerId: " + sellerId);
+        }
 
         model.addAttribute("list", list);
         model.addAttribute("rooms", rooms);
         model.addAttribute("facilities", facilities);
+
+        // 사용자 이름
+        String userId = jwtUtil.getUserIdFromToken(sellerKey);
+        model.addAttribute("userId", userId);
+
         return "accommodation/update";
     }
 }

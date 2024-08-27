@@ -57,6 +57,37 @@ public class SellerServiceImpl implements SellerService {
 //  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 //  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 
+    // 업소 정보 업데이트
+    @Override
+    public int accommodationUpdate(SellerDto seller) {
+        int accommodationUpdate = mapper.accommodationUpdate(seller);
+
+        // rooms 리스트를 순회하며 각각의 room을 업데이트
+        for (SellerDto.RoomDto room : seller.getRooms()) {
+            if (room.getRoomNo() == 0) {
+                mapper.insertRoom(room);  // 새 방일 경우
+            } else {
+                mapper.roomUpdate(room);
+            }
+        }
+
+        // 부대시설 업데이트 (필요에 따라)
+        int facilitiesUpdate = mapper.facilitiesUpdate(seller);
+
+        if(accommodationUpdate > 0 && !seller.getRooms().isEmpty() && facilitiesUpdate > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+
+
+
+
+//  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+//  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
     // 예약 검색 조회
     @Override
     public List<SellerDto> reservationSearch(Long accommodationNo, String dateType, String startDate, String endDate, String searchKeyword, String reservationStatus) {

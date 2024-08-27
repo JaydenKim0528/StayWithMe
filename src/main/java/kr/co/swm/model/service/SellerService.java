@@ -16,6 +16,12 @@ public interface SellerService {
 
 //  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 
+    // 업소 정보 업데이트
+    int accommodationUpdate(SellerDto seller);
+
+
+//  □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
+
     // 예약 검색 조회
     List<SellerDto> reservationSearch(Long accommodationNo, String dateType, String startDate, String endDate, String searchKeyword, String reservationStatus);
 

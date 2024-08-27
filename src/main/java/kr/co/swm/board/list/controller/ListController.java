@@ -2,6 +2,7 @@ package kr.co.swm.board.list.controller;
 
 import kr.co.swm.board.detail.model.DTO.DetailDTO;
 import kr.co.swm.board.list.model.DTO.ListDTO;
+import kr.co.swm.board.list.model.DTO.MainSearchDTO;
 import kr.co.swm.board.list.model.DTO.PageInfoDTO;
 import kr.co.swm.board.list.model.DTO.SearchDTO;
 import kr.co.swm.board.list.model.sevice.ListService;
@@ -67,32 +68,32 @@ public class ListController {
         // 최저 기본 가격
         model.addAttribute("cost", cost);
 
-        model.addAttribute("searchDTO", new SearchDTO());
+        model.addAttribute("searchDTO", searchDTO);
         return "tour";  // tour위치 반환
         //templates / ** .html
 
     }
 
-    @PostMapping("/get-list")
+    @GetMapping("/get-list")
     public String getList(Model model,
                           @RequestParam(value="currentPage", defaultValue="1") int currentPage,
-                          @ModelAttribute SearchDTO searchDTO) {
+                          @ModelAttribute MainSearchDTO mainSearchDTO) {
 
-        // 전체 게시글 수 구하기(Pagenation 영역)
-        int listCount = listService.getListCount(searchDTO);
-        int pageLimit = 3; // 보여질 페이지
-        int boardLimit = 5; // 페이지당 게시글
+        // 전체 게시글 수 구하기(Pagination 영역)
+        int listCount = listService.getListCount(mainSearchDTO);
+        int pageLimit = 3; // 보여질 페이지 수
+        int boardLimit = 5; // 페이지당 게시글 수
 
         PageInfoDTO pi = pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 
         // 업소 리스트 조회
-        List<ListDTO> place = listService.getList(searchDTO);
+        List<ListDTO> place = listService.getList(mainSearchDTO);
 
-        // 최소 기본 가격
+        // 최저 기본 가격 조회
         List<ListDTO> cost = listService.getCost();
 
         // 부가시설 조회
-        List<String> uniqueFacilities = listService.getFacilities(searchDTO);
+        List<String> uniqueFacilities = listService.getFacilities(mainSearchDTO);
 
         // 데이터 바인딩
         model.addAttribute("place", place);
@@ -100,12 +101,51 @@ public class ListController {
         model.addAttribute("cost", cost);
         model.addAttribute("uniqueFacilities", uniqueFacilities);
 
-        // searchDTO 또는 listDto를 뷰로 전달
-        model.addAttribute("searchDTO", searchDTO);
+        // 검색 조건 DTO를 뷰로 전달
+        model.addAttribute("mainSearchDTO", mainSearchDTO);
 
-        return "tour";  // 리스트 페이지로 이동
+        // tour 페이지로 이동
+        return "tour";
     }
 
+    @GetMapping("/date-search")
+    public String dateSearch(Model model,
+                             @RequestParam(value="currentPage", defaultValue="1") int currentPage,
+                             MainSearchDTO mainDTO) {
+
+        // type 값을 "전체"로 설정
+        mainDTO.setType("전체");
+
+        // 전체 게시글 수 구하기(Pagination 영역)
+        int listCount = listService.DateListCount(mainDTO);
+        int pageLimit = 3; // 보여질 페이지 수
+        int boardLimit = 5; // 페이지당 게시글 수
+
+        PageInfoDTO pi = pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+        // 날짜 조건에 따라 조회된 장소 리스트
+        List<ListDTO> dateList = listService.dateSearch(mainDTO);
+
+        for(ListDTO item : dateList) {
+            System.out.println("========== Controller Date Search ==========");
+            System.out.println("Board No : " + item.getBoardNo());
+            System.out.println("Board Type : " + item.getBoardType());
+            System.out.println("Board Count : " + item.getBoardCount());
+            System.out.println("Board Address : " + item.getBoardAddress());
+            System.out.println("============================================");
+        }
+
+        // 날짜 조건에 따른 부가시설 조회
+        List<String> dateFacil = listService.dateFacil(mainDTO);
+
+        // 데이터 모델에 추가
+        model.addAttribute("place", dateList);  // 조회된 장소 리스트
+        model.addAttribute("uniqueFacilities", dateFacil);  // 조회된 부가시설 리스트
+        model.addAttribute("searchDTO", mainDTO);  // 검색 조건을 바인딩할 수 있도록 DTO 추가
+        model.addAttribute("pi", pi);  // 페이지 정보
+
+        return "tour";
+    }
 
 
 }

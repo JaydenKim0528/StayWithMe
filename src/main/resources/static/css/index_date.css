@@ -1,0 +1,84 @@
+/* index_date.css */
+
+.date-form {
+    display: flex;
+    align-items: center;
+}
+
+.form-control-checkin,
+.form-control-checkout {
+    height: 40px; /* 입력 필드의 높이를 버튼과 맞춤 */
+    margin-right: 10px; /* 입력 필드 간의 간격 */
+}
+
+.search_btn {
+    height: 40px; /* 버튼의 높이를 입력 필드와 맞춤 */
+    padding: 0 20px; /* 버튼의 내부 패딩 조정 */
+}
+
+/* Date picker input fields and button */
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.search-check {
+    margin-top: 17px;
+    height: 38px; /* input 필드와 높이 일치 */
+    padding: 0 20px; /* 버튼 내부의 좌우 여백 */
+    font-size: 16px; /* 버튼 텍스트 크기 */
+    line-height: 1.5; /* 텍스트 높이 조정 */
+    border-radius: 20px; /* 버튼 테두리 라운딩 */
+    border: 1px solid #ced4da; /* 기본 테두리 스타일 */
+}
+
+.navDateLeft {
+  margin-top: 15px;
+  height: 35px !important;
+  background: #17a2b8 !important;
+  color: #fff !important;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 25px 0px 0px 25px;
+  border: none;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  margin-left: 10px; }
+  .navDateLeft::-webkit-input-placeholder{
+    color: #fff;
+  }
+  .navDateLeft::-moz-placeholder{
+    color: #fff;
+  }
+  .navDateLeft:-ms-input-placeholder{
+    color: #fff;
+  }
+  .navDateLeft:-moz-placeholder{
+    color: #fff;
+  }
+  .form-control:focus, .form-control:active {
+    border-color: #000000; }
+
+.navDateright {
+  margin-top: 15px;
+  height: 35px !important;
+  background: #17a2b8 !important;
+  color: #fff !important;
+  text-align: center;
+  font-size: 15px;
+  border-radius: 0px 25px 25px 0px;
+  border: none;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important; }
+  .navDateright::-webkit-input-placeholder{
+    color: #fff;
+  }
+  .navDateright::-moz-placeholder{
+    color: #fff;
+  }
+  .navDateright:-ms-input-placeholder{
+    color: #fff;
+  }
+  .form-control-checkiout:-moz-placeholder{
+    color: #fff;
+  }

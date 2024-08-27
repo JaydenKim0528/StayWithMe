@@ -12,12 +12,12 @@
                 <span class="oi oi-menu"></span> Menu
             </button>
 
-            <div class="form-group">
-                <input type="text" id="checkin_date" class="form-control-checkin" placeholder="체크인 날짜">
-            </div>
-            <div class="form-group">
-                <input type="text" id="checkout_date" class="form-control-checkout" placeholder="체크아웃 날짜">
-            </div>
+            <form th:action="@{/date-search}" method="get" class="form-group d-flex align-items-center">
+                <input type="text" name="checkInDate" id="checkin_date" class="form-control-checkin mr-2 navDateLeft" placeholder="체크인 날짜">
+                <input type="text" name="checkOutDate" id="checkout_date" class="form-control-checkout mr-2 navDateright" placeholder="체크아웃 날짜">
+                <button type="submit" class="btn btn-primary search-check">조회</button>
+            </form>
+
 
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">

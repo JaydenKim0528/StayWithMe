@@ -365,6 +365,49 @@
         AND ROOM_NO = #{extraRoomNo}
     </update>
 
+<!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
+<!-- □□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□ -->
+
+    <!-- 숙소 정보 업데이트 -->
+    <update id="accommodationUpdate">
+        UPDATE accommodation
+        SET NAME = #{seller.accommodationName},
+        ACCOMMODATION_TYPE = #{seller.accommodationType},
+        PHONE = #{seller.accommodationPhone},
+        INFO = #{seller.accommodationInfo}
+        WHERE ACCOMMODATION_ADMIN_NO = #{seller.accommodationNo}
+    </update>
+
+    <!-- 신규 객실 등록 -->
+    <insert id="insertRoom">
+        INSERT INTO room (ROOM_NAME, CHECK_IN_TIME, CHECK_OUT_TIME, STANDARD_OCCUPANCY, MAX_OCCUPANCY, ACCOMMODATION_ADMIN_NO)
+        VALUES (#{room.roomName}, #{room.roomCheckIn}, #{room.roomCheckOut}, #{room.roomPersonnel}, #{room.roomMaxPersonnel}, #{seller.accommodationNo})
+    </insert>
+
+    <!-- 객실 정보 업데이트 -->
+    <update id="roomUpdate">
+        UPDATE room
+        SET ROOM_NAME = #{room.roomName},
+        CHECK_IN_TIME = #{room.roomCheckIn},
+        CHECK_OUT_TIME = #{room.roomCheckOut},
+        STANDARD_OCCUPANCY = #{room.roomPersonnel},
+        MAX_OCCUPANCY = #{room.roomMaxPersonnel}
+        WHERE ROOM_NO = #{room.roomNo}
+    </update>
+
+    <!-- 부대시설 업데이트 -->
+    <update id="facilitiesUpdate">
+        <!-- 먼저 기존 부대시설을 삭제 -->
+        DELETE FROM facilities
+        WHERE ACCOMMODATION_ADMIN_NO = #{seller.accommodationNo};
+
+        <!-- 새롭게 부대시설을 삽입 -->
+        <foreach collection="seller.accommodationFacilities" item="facility" separator=";">
+            INSERT INTO facilities (ACCOMMODATION_ADMIN_NO, FACILITY_NAME)
+            VALUES (#{seller.accommodationNo}, #{facility})
+        </foreach>
+    </update>
+
 </mapper>
 
 

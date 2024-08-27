@@ -1396,7 +1396,7 @@
 		daysOfWeekDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
-		format: 'mm/dd/yyyy',
+		format: 'yyyy/mm/dd',
 		keyboardNavigation: true,
 		language: 'en',
 		minViewMode: 0,
@@ -1410,6 +1410,10 @@
 		todayHighlight: false,
 		weekStart: 0
 	};
+
+	console.log($.fn.datepicker.defaults.format);
+
+
 	var locale_opts = $.fn.datepicker.locale_opts = [
 		'format',
 		'rtl',

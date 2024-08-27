@@ -47,14 +47,10 @@
 							<br>
 							<div class="form-group">
 								<div class="select-wrap one-third">
-									<input type="radio" th:field="*{boardType}" name="accommodation" value="전체" id="전체" ><label
-										for="전체">전체</label><br>
-									<input type="radio" th:field="*{boardType}" name="accommodation" value="호텔" id="호텔"  ><label
-										for="호텔">호텔</label><br>
-									<input type="radio" th:field="*{boardType}" name="accommodation" value="리조트" id="리조트"  ><label
-										for="호텔">리조트</label><br>
-									<input type="radio" th:field="*{boardType}" name="accommodation" value="펜션" id="펜션" ><label
-										for="펜션">펜션</label><br>
+									<input type="radio" th:field="*{type}" name="accommodation" value="전체" id="전체"><label for="전체">전체</label><br>
+									<input type="radio" th:field="*{type}" name="accommodation" value="호텔" id="호텔"><label for="호텔">호텔</label><br>
+									<input type="radio" th:field="*{type}" name="accommodation" value="리조트" id="리조트"><label for="리조트">리조트</label><br>
+									<input type="radio" th:field="*{type}" name="accommodation" value="펜션" id="펜션"><label for="펜션">펜션</label><br>
 								</div>
 							</div>
 
@@ -72,7 +68,6 @@
 								</div>
 							</div>
 
-							<!-- 옵션 선택영역  -->
 							<h5>옵션</h5>
 							<div class="form-group option_box">
 								<div th:each="facility : ${uniqueFacilities}">
@@ -81,6 +76,7 @@
 										<label th:for="${facility}" th:text="${facility}" class="toggle-label"></label>
 									</div>
 								</div>
+							</div>
 								<!-- 서치 버튼 -->
 							</div>
 								<div class="form-group option_box">
