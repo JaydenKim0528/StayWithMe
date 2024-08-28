@@ -12,6 +12,8 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+build/**
+.gradle/**
 # AWS User-specific
 .idea/**/aws.xml
 
@@ -30,6 +32,9 @@
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+
+.gradle/**
+build/**
 
 
 *.properties
