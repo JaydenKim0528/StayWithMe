@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,4 +18,11 @@ public class SearchDTO {
      private int minRate = 0;
      private int maxRate = 1000000;
      private List<String> options;
+
+     // 검색 시작 날짜
+     private String checkInDate = "2024-08-29";
+
+     // 검색 종료 날짜
+     private String checkOutDate = "2024-09-08";
+
 }

@@ -1,31 +1,21 @@
 package kr.co.swm.board.list.model.sevice;
 
 
-import kr.co.swm.board.list.model.DTO.ListDTO;
-import kr.co.swm.board.list.model.DTO.MainSearchDTO;
-import kr.co.swm.board.list.model.DTO.PageInfoDTO;
-import kr.co.swm.board.list.model.DTO.SearchDTO;
+import kr.co.swm.board.list.model.DTO.*;
 import kr.co.swm.board.mapper.ListMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ListServiceImpl implements ListService {
-
-    //Mapper 의존성 주입
+@RequiredArgsConstructor
+public class TourAccommodationServiceImpl implements TourAccommodationService {
     private final ListMapper listMapper;
 
-    @Autowired
-    public ListServiceImpl(ListMapper listMapper){
-        this.listMapper = listMapper;
-    }
-
-    //장소 불러오기
     @Override
-    public List<ListDTO> getPlace(PageInfoDTO pi, SearchDTO searchDTO) {
+    public List<ListDTO> getAccommodation(PageInfoDTO pi, SearchDTO searchDTO) {
         return listMapper.getPlace(pi, searchDTO);
     }
 
@@ -35,25 +25,11 @@ public class ListServiceImpl implements ListService {
         return listMapper.getTotalCount(searchDTO);
     }
 
-    //최저 기본 가격
-    @Override
-    public List<ListDTO> getCost() {
-        return listMapper.getCost();
-    }
-
     // 부대시설 불러오기
     @Override
     public List<String> getUniqueFacilities() {
         return listMapper.getUniqueFacilities();
     }
-
-    //  체크인 & 체크아웃 지정할 때 나오는 리스트
-//    @Override
-//    public List<ListDTO> getCheck(String checkinDate, String checkoutDate) {
-//        return listMapper.getCheck(checkinDate, checkoutDate);
-//    }
-
-
 
     @Override
     public int getListCount(MainSearchDTO mainSearchDTO) {
@@ -91,5 +67,20 @@ public class ListServiceImpl implements ListService {
     public List<String> getFacilities(MainSearchDTO mainSearchDTO) {
         List<String> facilities = listMapper.getFacilities(mainSearchDTO);
         return facilities.stream().distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomDTO> getRooms(int accommodationNo) {
+        return listMapper.getRooms(accommodationNo);
+    }
+
+    @Override
+    public Integer getMinBasicRate(List<Integer> roomNos) {
+        return listMapper.getMinBasicRate(roomNos);
+    }
+
+    @Override
+    public Integer getMinExtraRate(List<Integer> roomNos, SearchDTO searchDTO) {
+        return listMapper.getMinExtraRate(roomNos, searchDTO);
     }
 }

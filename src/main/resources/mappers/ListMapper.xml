@@ -16,7 +16,6 @@
 
     <!-- 장소 -->
     <select id="getPlace" resultMap="placeResultMap">
-
         SELECT ab.ACCOMMODATION_ADMIN_NO,
         ab.NAME,
         ab.ACCOMMODATION_TYPE,
@@ -37,17 +36,16 @@
         ) ab
         JOIN room r ON ab.ACCOMMODATION_ADMIN_NO = r.ACCOMMODATION_ADMIN_NO
         JOIN basic_rate br ON r.ROOM_NO = br.ROOM_NO
-
         JOIN facilities f ON f.ACCOMMODATION_ADMIN_NO = ab.ACCOMMODATION_ADMIN_NO
+
         <if test='searchDTO.type != null and !searchDTO.type.equals("전체")'>
             WHERE ab.ACCOMMODATION_TYPE = #{searchDTO.type}
         </if>
+
         GROUP BY ab.ACCOMMODATION_ADMIN_NO, ab.NAME, ab.ACCOMMODATION_TYPE, ab.ADDRESS
         HAVING MIN(br.BASIC_RATE) BETWEEN #{searchDTO.minRate} AND #{searchDTO.maxRate}
         ORDER BY ab.ACCOMMODATION_ADMIN_NO
         LIMIT #{pi.boardLimit} OFFSET #{pi.offset}
-
-
     </select>
 
 
@@ -60,8 +58,6 @@
         4. 전체 선택 후 검색했을 때
     -->
     <select id="getTotalCount" resultType="int">
-
-
         SELECT
         COUNT(distinct ac.ACCOMMODATION_ADMIN_NO)
         FROM ACCOMMODATION ac
@@ -84,14 +80,6 @@
                 </when>
             </choose>
         </where>
-    </select>
-
-
-
-    <!-- 최저 기본 가격 -->
-    <select id="getCost" resultMap="placeResultMap">
-        select distinct basic_rate_no,basic_rate from BASIC_RATE
-        where basic_rate_no = 1
     </select>
 
     <!-- tour페이지에서 부대시설 항목 불러오기-->
@@ -182,6 +170,49 @@
         AND (re.CHECK_OUT_DATE IS NULL OR re.CHECK_OUT_DATE &lt; #{checkinDate})
         GROUP BY
         a.ACCOMMODATION_ADMIN_NO, a.NAME, a.ACCOMMODATION_TYPE, a.ADDRESS, r.CHECK_IN_TIME
+    </select>
+
+    <resultMap id="roomResultMap" type="kr.co.swm.board.list.model.DTO.RoomDTO">
+        <result column="ROOM_NO" property="roomNo" />
+        <result column="ACCOMMODATION_ADMIN_NO" property="accommodationNo" />
+        <result column="ROOM_TYPE_NO" property="roomTypeNo" />
+        <result column="ROOM_NAME" property="roomName" />
+        <result column="CHECK_IN_TIME" property="roomCheckInTime" />
+        <result column="CHECK_OUT_TIME" property="roomCheckOutTime" />
+    </resultMap>
+
+    <select id="getRooms" resultMap="roomResultMap">
+        select ROOM_NO,
+               ACCOMMODATION_ADMIN_NO,
+               ROOM_TYPE_NO,
+               ROOM_NAME,
+               CHECK_IN_TIME,
+               CHECK_OUT_TIME
+        from ROOM
+        where ACCOMMODATION_ADMIN_NO = #{accommodationNo};
+    </select>
+
+    <select id="getMinBasicRate" resultType="Integer">
+        select min(BASIC_RATE)
+        from room r
+                 join basic_rate br on br.ROOM_NO = r.ROOM_NO
+        where 1=1
+        and r.ROOM_NO in
+        <foreach item="item" collection="roomNos" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getMinExtraRate" resultType="Integer">
+        select min(EXTRA_RATE)
+        from room r
+                 join EXTRA_RATE er on er.ROOM_NO = r.ROOM_NO
+        where r.ROOM_NO in
+        <foreach item="item" collection="roomNos" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+          AND (er.EXTRA_DATE_START IS NULL OR er.EXTRA_DATE_START &gt; #{searchDTO.checkInDate} OR
+               er.EXTRA_DATE_END &lt; #{searchDTO.checkOutDate})
     </select>
 
 </mapper>

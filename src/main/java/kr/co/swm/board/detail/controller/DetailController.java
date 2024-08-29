@@ -26,8 +26,6 @@ public class DetailController {
     public String detail(@RequestParam("boardNo") int boardNo,
                          Model model) {
 
-        System.out.println(boardNo);
-
         //  장소 불러오기
         List<DetailDTO> place = detailService.getPlace(boardNo);
 
@@ -37,26 +35,16 @@ public class DetailController {
         //  게시글 상세 조회
         DetailDTO post = detailService.getPost(boardNo);
 
-        //  별점 평균
-        double avgRate = detailService.getAvgRate(boardNo);
-
-        //  방 평균 점수
-        double rate = detailService.getRate(boardNo);
-
         //  부대시설 불러오기
         List<DetailDTO> facilities = detailService.getFacilities(boardNo);
 
         //  데이터 바인딩
         model.addAttribute("place",place);
         model.addAttribute("post",post);
-        model.addAttribute("avgRate",avgRate);
-        model.addAttribute("rate",rate);
         model.addAttribute("facilities",facilities);
         model.addAttribute("subPlace",subPlace);
 
         //  각 페이지마다 boardNo에 대한 다른 값 불러오기
-        // http://localhost:8080/hotel-single?boardNo=1 이면 boardNo=1
-        // http://localhost:8080/hotel-single?boardNo=2 이면 boardNo=2
         model.addAttribute("boardNo", boardNo);
 
         return "hotel-single"; //templates / ** .html

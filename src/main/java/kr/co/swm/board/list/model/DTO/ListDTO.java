@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -23,4 +24,21 @@ public class ListDTO {
 
     private String filePath;    // 파일경로
     private String fileName;    // 파일 명
+
+    public ListDTO changeBroadCount(int broadCount) {
+        this.boardCount = broadCount;
+        return this;
+    }
+
+    public int getMinRate(Integer basicRate, Integer extraRate) {
+        if (Objects.isNull(extraRate) || extraRate <= 0) {
+            return basicRate;
+        }
+
+        if (basicRate < extraRate) {
+            return extraRate;
+        }
+
+        return basicRate;
+    }
 }
