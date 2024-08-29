@@ -66,7 +66,7 @@
 								<div class="facilities-container" style="width: 500px;">
 								<h5>객실내 부대시설</h5>
 									<div class="facilities" th:each="facilities : ${facilities}">
-									<p th:text="${facilities.facilityName} + '&nbsp;' + '&nbsp;' " style="float: left;"></p>
+									<p th:utext="${facilities.facilityName} + '&nbsp;' + '&nbsp;' " style="float: left;"></p>
 									</div>
 								</div>
 								<!-- 지도 영역 -->

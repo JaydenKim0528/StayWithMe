@@ -76,12 +76,12 @@
     </select>
 
     <!-- 별점 평균 -->
-    <select id="getAvgRate" resultType="double">
-        SELECT COALESCE(ROUND(AVG(r2.rating), 1), 0) AS avgRate
-        FROM room r
-        JOIN review r2 ON r.ROOM_NO = r2.ROOM_NO
-        where r.ACCOMMODATION_ADMIN_NO = #{boardNo}
-    </select>
+<!--    <select id="getAvgRate" resultType="double">-->
+<!--        SELECT COALESCE(ROUND(AVG(r2.rating), 1), 0) AS avgRate-->
+<!--        FROM room r-->
+<!--        JOIN review r2 ON r.ROOM_NO = r2.ROOM_NO-->
+<!--        where r.ACCOMMODATION_ADMIN_NO = #{boardNo}-->
+<!--    </select>-->
 
     <!-- 게시글의 총 개수 -->
     <select id="getTotalCount" resultType="int">

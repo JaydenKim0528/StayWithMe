@@ -38,10 +38,10 @@ public class DetailController {
         DetailDTO post = detailService.getPost(boardNo);
 
         //  별점 평균
-        double avgRate = detailService.getAvgRate(boardNo);
+        // double avgRate = detailService.getAvgRate(boardNo);
 
         //  방 평균 점수
-        double rate = detailService.getRate(boardNo);
+        // double rate = detailService.getRate(boardNo);
 
         //  부대시설 불러오기
         List<DetailDTO> facilities = detailService.getFacilities(boardNo);
@@ -49,8 +49,8 @@ public class DetailController {
         //  데이터 바인딩
         model.addAttribute("place",place);
         model.addAttribute("post",post);
-        model.addAttribute("avgRate",avgRate);
-        model.addAttribute("rate",rate);
+        // model.addAttribute("avgRate", avgRate);
+        // model.addAttribute("rate",rate);
         model.addAttribute("facilities",facilities);
         model.addAttribute("subPlace",subPlace);
 

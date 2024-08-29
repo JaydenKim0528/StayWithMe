@@ -16,7 +16,7 @@ public interface ListMapper {
   // 총 게시글 개수
   int getTotalCount(@Param("searchDTO") SearchDTO searchDTO);
   // 별점 평균
-  double getAvgRate(@Param("boardNo") int boardNo);
+  // double getAvgRate(@Param("boardNo") int boardNo);
   // 기본 가격
   List<ListDTO> getCost();
 

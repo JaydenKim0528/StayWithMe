@@ -47,11 +47,11 @@ public class ListController {
         //장소 불러오기
         List<ListDTO> place = listService.getPlace(pi, searchDTO);
 
-        // 평균 별점 계산
-        double rate = 0;
-        if(place.size() > 0) {
-            rate = listService.getAvgRate(place.get(0).getBoardNo());
-        }
+//        // 평균 별점 계산
+//        double rate = 0;
+//        if(place.size() > 0) {
+//            rate = listService.getAvgRate(place.get(0).getBoardNo());
+//        }
 
         // 최소 기본 가격
         List<ListDTO> cost = listService.getCost();
@@ -60,7 +60,7 @@ public class ListController {
         //장소
         model.addAttribute("place", place);
         //별점 평균
-        model.addAttribute("rate", rate);
+//        model.addAttribute("rate", rate);
         // 페이징
         model.addAttribute("pi",pi);
         // 최저 기본 가격

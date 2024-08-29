@@ -13,8 +13,8 @@ public interface ListService {
     List<ListDTO> getPlace(PageInfoDTO pi, SearchDTO searchDTO);
     // 게시글의 수
     int getTotalCount(SearchDTO searchDTO);
-    // 별점 불러오기
-    double getAvgRate(int boardNo);
+//    // 별점 불러오기
+//    double getAvgRate(int boardNo);
     //  최저 기본 가격
     List<ListDTO> getCost();
 

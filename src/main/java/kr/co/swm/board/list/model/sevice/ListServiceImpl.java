@@ -26,12 +26,12 @@ public class ListServiceImpl implements ListService {
     public List<ListDTO> getPlace(PageInfoDTO pi, SearchDTO searchDTO) {
         return listMapper.getPlace(pi, searchDTO);
     }
-
-    //별점 불러오기
-    @Override
-    public double getAvgRate(int boardNo) {
-        return listMapper.getAvgRate(boardNo);
-    }
+//
+//    //별점 불러오기
+//    @Override
+//    public double getAvgRate(int boardNo) {
+//        return listMapper.getAvgRate(boardNo);
+//    }
 
     //게시글의 수
     @Override
