@@ -1,0 +1,469 @@
+/*.terms-section {*/
+/*    margin: 20px;*/
+/*    font-size: 1.2em;*/
+/*}*/
+
+/*.terms-section .expand {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.terms-section .term-content {*/
+/*    display: none;*/
+/*    margin: 10px 0;*/
+/*}*/
+
+/*.terms-section .term-content p {*/
+/*    margin: 5px 0;*/
+/*}*/
+
+/*.modal {*/
+/*    display: none;*/
+/*    position: fixed;*/
+/*    z-index: 1;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    background-color: rgba(0,0,0,0.4);*/
+/*    padding-top: 60px;*/
+/*}*/
+
+/*.modal-content {*/
+/*    background-color: #fefefe;*/
+/*    margin: 5% auto;*/
+/*    padding: 20px;*/
+/*    border: 1px solid #888;*/
+/*    width: 70%; !* 팝업 창의 너비를 50%로 줄였습니다. *!*/
+/*    max-width: 600px; !* 최대 너비를 설정하여 큰 화면에서도 적당한 크기로 유지 *!*/
+/*    font-size: 0.9em; !* 글씨 크기를 줄였습니다. *!*/
+/*}*/
+
+/*.modal-content p {*/
+/*    margin-bottom: 10px; !* 문단 간 간격 조정 *!*/
+/*    line-height: 1.4; !* 줄 간격을 약간 좁게 설정 *!*/
+/*}*/
+
+
+/*.privacy-modal {*/
+/*    display: none;*/
+/*    position: fixed;*/
+/*    z-index: 1;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    background-color: rgba(0,0,0,0.4);*/
+/*    padding-top: 60px;*/
+/*}*/
+
+/*.privacy-modal-content {*/
+/*    background-color: #fefefe;*/
+/*    margin: 5% auto;*/
+/*    padding: 20px;*/
+/*    border: 1px solid #888;*/
+/*    width: 70%;*/
+/*    max-width: 600px;*/
+/*    font-size: 0.9em;*/
+/*}*/
+
+/*.privacy-close {*/
+/*    color: #aaa;*/
+/*    float: right;*/
+/*    font-size: 28px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.privacy-close:hover,*/
+/*.privacy-close:focus {*/
+/*    color: black;*/
+/*    text-decoration: none;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.privacy-modal-content table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.privacy-modal-content th, .privacy-modal-content td {*/
+/*    border: 1px solid #ddd;*/
+/*    padding: 8px;*/
+/*    text-align: left;*/
+/*}*/
+
+/*.privacy-modal-content th {*/
+/*    background-color: #f2f2f2;*/
+/*}*/
+
+/*.privacy-modal-content td {*/
+/*    vertical-align: top;*/
+/*}*/
+
+/*.notice {*/
+/*    margin-top: 20px;*/
+/*    font-size: 0.8em;*/
+/*    color: #555;*/
+/*}*/
+
+/*.close {*/
+/*    color: #aaa;*/
+/*    float: right;*/
+/*    font-size: 28px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.close:hover,*/
+/*.close:focus {*/
+/*    color: black;*/
+/*    text-decoration: none;*/
+/*    cursor: pointer;*/
+/*}*/
+/*select#coupon {*/
+/*    width: 200px;*/
+/*    padding: 10px;*/
+/*    border: 2px solid #ddd;*/
+/*    border-radius: 5px;*/
+/*    background-color: white;*/
+/*    color: #333;*/
+/*    font-size: 16px;*/
+/*    transition: border-color 0.3s ease, box-shadow 0.3s ease;*/
+/*}*/
+
+/*select#coupon:focus {*/
+/*    border-color: #5cb85c;*/
+/*    box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);*/
+/*    outline: none;*/
+/*}*/
+
+/*!* 버튼 스타일링 *!*/
+/*.button-group button {*/
+/*    padding: 10px 20px;*/
+/*    background-color: #5cb85c;*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
+
+/*.button-group button:hover {*/
+/*    background-color: #4cae4c;*/
+/*}*/
+/*!*ㅁㄴㅇㅁㄴㅇㅁㅇㅁㄴ*!*/
+/*.section {*/
+/*    margin: 20px;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.button-group button {*/
+/*    padding: 10px 20px;*/
+/*    background-color: #5cb85c;*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
+
+/*.button-group button:hover {*/
+/*    background-color: #4cae4c;*/
+/*}*/
+
+/*!* 쿠폰 모달 스타일 *!*/
+/*.modal {*/
+/*    display: none;*/
+/*    position: fixed;*/
+/*    z-index: 1;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    background-color: rgba(0,0,0,0.4);*/
+/*    padding-top: 60px;*/
+/*}*/
+
+/*.modal-content {*/
+/*    background-color: #fefefe;*/
+/*    margin: 5% auto;*/
+/*    padding: 20px;*/
+/*    border: 1px solid #888;*/
+/*    width: 70%;*/
+/*    max-width: 500px;*/
+/*    max-height: 400px;*/
+/*    overflow-y: auto;*/
+/*    font-size: 1em;*/
+/*    border-radius: 8px;*/
+/*}*/
+
+/*.modal-content h2 {*/
+/*    margin-top: 0;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.close {*/
+/*    color: #aaa;*/
+/*    float: right;*/
+/*    font-size: 28px;*/
+/*    font-weight: bold;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.close:hover,*/
+/*.close:focus {*/
+/*    color: black;*/
+/*    text-decoration: none;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*#coupon-list {*/
+/*    list-style-type: none;*/
+/*    padding: 0;*/
+/*}*/
+
+/*#coupon-list div {*/
+/*    padding: 10px;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*    cursor: pointer;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*}*/
+
+/*#coupon-list div:hover {*/
+/*    background-color: #f0f0f0;*/
+/*}*/
+
+/*#coupon-list li {*/
+/*    display: inline-block;*/
+/*    margin-right: 10px;*/
+/*    color: #555;*/
+/*}*/
+
+/*#selected-coupon {*/
+/*    width: 100%;*/
+/*    padding: 10px;*/
+/*    margin-top: 20px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    text-align: center;*/
+/*    font-size: 16px;*/
+/*    color: #333;*/
+/*}*/
+
+/* Global Styles */
+body {
+    background-color: #0c5460;
+}
+
+.hero-wrap.js-fullheight {
+    background-image: url('../static/images/bg_4.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-position: center center;
+}
+
+.container1 {
+    margin: 20px auto;
+    max-width: 900px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Section Styles */
+.section {
+    margin-bottom: 20px;
+}
+
+.section h1, .section h3 {
+    color: #333;
+}
+
+.section .form-group {
+    margin-bottom: 15px;
+}
+
+.section .form-group input[type="text"] {
+    width: calc(50% - 10px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.section .form-group input[type="text"]:focus {
+    border-color: #5cb85c;
+    outline: none;
+}
+
+.section .button-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Terms and Conditions Styles */
+.terms-section {
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    font-size: 1.2em;
+}
+
+.terms-section .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.terms-section .checkbox-container label {
+    margin-left: 10px;
+}
+
+.terms-section .expand {
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.terms-section .modal,
+.privacy-modal,
+#coupon-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.terms-section .modal-content,
+.privacy-modal-content,
+#coupon-modal .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    max-width: 600px;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.terms-section .modal-content p,
+.privacy-modal-content p {
+    margin-bottom: 10px;
+}
+
+/* Price Info Styles */
+.price-info {
+    margin-top: 20px;
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.price-info div {
+    margin-bottom: 10px;
+}
+
+.price-info .final-price {
+    font-weight: bold;
+    color: #d9534f;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.pay-button {
+    display: inline-block;
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pay-button:hover {
+    background-color: #4cae4c;
+}
+
+/* Coupon Modal Styles */
+#coupon-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#coupon-list div {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#coupon-list div:hover {
+    background-color: #f0f0f0;
+}
+
+#selected-coupon {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Checkbox and Modal Styles */
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.modal-content .close,
+.privacy-modal-content .privacy-close,
+#coupon-modal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content .close:hover,
+.privacy-modal-content .privacy-close:hover,
+#coupon-modal .close:hover,
+.modal-content .close:focus,
+.privacy-modal-content .privacy-close:focus,
+#coupon-modal .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

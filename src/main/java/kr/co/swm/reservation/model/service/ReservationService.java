@@ -25,4 +25,6 @@ public interface ReservationService {
 
     int paymentDetail(PaymentDto paymentDto, int paymentNo);
 
+    int refund(String cancelBy, int bookingNo, int cancelAmount);
+
 }

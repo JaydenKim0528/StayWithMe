@@ -5,267 +5,6 @@
     <link th:insert="~{fragments/css.html :: css}"></link>
     <link rel="stylesheet" th:href="@{css/booking/booking.css}">
 
-    <style>
-
-        .terms-section {
-            margin: 20px;
-            font-size: 1.2em;
-        }
-
-        .terms-section .expand {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .terms-section .term-content {
-            display: none;
-            margin: 10px 0;
-        }
-
-        .terms-section .term-content p {
-            margin: 5px 0;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 70%; /* 팝업 창의 너비를 50%로 줄였습니다. */
-            max-width: 600px; /* 최대 너비를 설정하여 큰 화면에서도 적당한 크기로 유지 */
-            font-size: 0.9em; /* 글씨 크기를 줄였습니다. */
-        }
-        .modal-content p {
-            margin-bottom: 10px; /* 문단 간 간격 조정 */
-            line-height: 1.4; /* 줄 간격을 약간 좁게 설정 */
-        }
-
-        .privacy-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-
-        .privacy-modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 70%;
-            max-width: 600px;
-            font-size: 0.9em;
-        }
-
-        .privacy-close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .privacy-close:hover,
-        .privacy-close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .privacy-modal-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .privacy-modal-content th, .privacy-modal-content td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .privacy-modal-content th {
-            background-color: #f2f2f2;
-        }
-
-        .privacy-modal-content td {
-            vertical-align: top;
-        }
-
-        .notice {
-            margin-top: 20px;
-            font-size: 0.8em;
-            color: #555;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        select#coupon {
-            width: 200px;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            background-color: white;
-            color: #333;
-            font-size: 16px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        select#coupon:focus {
-            border-color: #5cb85c;
-            box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
-            outline: none;
-        }
-
-        /* 버튼 스타일링 */
-        .button-group button {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .button-group button:hover {
-            background-color: #4cae4c;
-        }
-        /*ㅁㄴㅇㅁㄴㅇㅁㅇㅁㄴ*/
-        .section {
-            margin: 20px;
-            text-align: center;
-        }
-
-        .button-group button {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .button-group button:hover {
-            background-color: #4cae4c;
-        }
-
-        /* 쿠폰 모달 스타일 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 70%;
-            max-width: 500px;
-            max-height: 400px;
-            overflow-y: auto;
-            font-size: 1em;
-            border-radius: 8px;
-        }
-
-        .modal-content h2 {
-            margin-top: 0;
-            text-align: center;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        #coupon-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        #coupon-list div {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #coupon-list div:hover {
-            background-color: #f0f0f0;
-        }
-
-        #coupon-list li {
-            display: inline-block;
-            margin-right: 10px;
-            color: #555;
-        }
-
-        #selected-coupon {
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 16px;
-            color: #333;
-        }
-    </style>
 
     <!-- jQuery -->
     <script
@@ -333,7 +72,7 @@
             <label for="selected-coupon">쿠폰</label>
             <div class="button-group">
                 <input type="text" id="selected-coupon" placeholder="쿠폰을 선택하세요" onclick="openCouponModal()" readonly/>
-                <button type="button" onclick="applyCoupon()">적용</button>
+                <button type="button" onclick="cancelCouponSelection()">취소</button> <!-- 적용 버튼을 취소 버튼으로 변경 -->
             </div>
         </div>
 
@@ -485,14 +224,9 @@
 <script>
 
     // 쿠폰 가격 적용
-
-
     let discountAmount = (document.getElementById('discount-price').value = document.getElementById("discount-price-span").textContent);
     let basicPrice = (document.getElementById('basic-price').value = document.getElementById('base-price-span').textContent.trim());
     let finalPrice = (document.getElementById('final-price').value = document.getElementById('final-price-span').textContent.trim());
-    console.log("========================================================  " + finalPrice);
-
-
 
     let selectedCouponId = null;
 
@@ -509,7 +243,6 @@
         selectedCouponId = element.getAttribute('data-coupon-id');
         const discountType = element.getAttribute('data-coupon-type');
         const discountValue = parseInt(element.getAttribute('data-coupon-discount'));
-        console.log(discountValue + " : dsadsadasds")
 
         // 선택한 쿠폰 이름을 인풋 필드에 표시
         document.getElementById('selected-coupon').value = couponName;
@@ -521,7 +254,20 @@
         closeCouponModal();
     }
 
+    function cancelCouponSelection() {
+        // 선택된 쿠폰 정보를 초기화
+        selectedCouponId = null;
+        document.getElementById('selected-coupon').value = '';
 
+        // 기존 할인 정보를 제거하고 기본 가격을 다시 설정
+        document.getElementById('discount-price').value = 0;
+        document.getElementById('discount-price-span').textContent = '0';
+        finalPrice = basicPrice;
+        document.getElementById('final-price-span').textContent = basicPrice;
+
+        // 모달 닫기
+        closeCouponModal();
+    }
     function applyCoupon(discountType, discountValue) {
 
         if (discountType === 'DISCOUNT_RATE') {
@@ -620,17 +366,6 @@
         const checkOutDate = document.getElementById("checkOutDate").textContent;
         const roomNo = document.getElementById("roomNo").value;
 
-        console.log("id ; " + selectedCouponId )
-        console.log("room : " + roomNo);
-        console.log("checkInDate : " + checkInDate);
-        console.log("checkOutDate : " + checkOutDate);
-        console.log("final : " + finalPrice);
-console.log("-------------")
-        console.log("selectedCouponId: ", selectedCouponId, ", type:", typeof selectedCouponId);
-        console.log("roomNo: ", roomNo, ", type:", typeof roomNo);
-        console.log("checkInDate: ", checkInDate, ", type:", typeof checkInDate);
-        console.log("checkOutDate: ", checkOutDate, ", type:", typeof checkOutDate);
-        console.log("finalPrice: ", finalPrice, ", type:", typeof finalPrice);
         // 데이터 객체를 만듭니다.
         const data = {
             checkInDate: checkInDate,
@@ -646,14 +381,11 @@ console.log("-------------")
             data: JSON.stringify(data),  // JSON 형식으로 데이터 전송
             contentType: "application/json",
             success: function(response) {
-                console.log("서버 응답:", response);
 
                 // 서버에서 긍정적인 응답을 받으면 결제 함수 호출
                 if (response.status === "success") {
                     var reNo = response.saveNo;
                     let finalAmount = response.reserveAmount;
-                    console.log("type NO : " + typeof reNo)
-                    console.log("type NO : " + reNo)
                     requestPay(reNo, finalAmount);
                 } else {
                     alert("예약 처리에 실패했습니다. 다시 시도해주세요.");
@@ -672,9 +404,7 @@ console.log("-------------")
     IMP.init("imp67844376");
 
     function requestPay(reNo, finalAmount) {
-        console.log("----- > " + reNo);
         const merchantUID = generateMerchantUID();
-        console.log("Merchant UID: " + merchantUID);
 
         // hidden input 생성
         let form = document.getElementById('terms-form');

@@ -3,11 +3,14 @@ package kr.co.swm.reservation.controller;
 import kr.co.swm.reservation.model.dto.AccessTokenResponse;
 import kr.co.swm.reservation.model.dto.PaymentRequest;
 import kr.co.swm.reservation.model.dto.PaymentVerificationResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @RestController
 public class PaymentController {
@@ -73,12 +76,53 @@ public class PaymentController {
         }
     }
 
-    private String getAccessToken() {
+    @PostMapping("/refund/complete")
+    public ResponseEntity<?> refundPayment(@RequestBody Map<String, String> request) {
+        try {
+            String impUid = request.get("imp_uid");
+
+            // 포트원 API를 통해 환불 요청
+            String url = "https://api.iamport.kr/payments/cancel";
+
+            // 액세스 토큰을 발급
+            String accessToken = getAccessToken();
+
+            // 헤더 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Type", "application/json");
+            headers.set("Authorization", "Bearer " + accessToken);
+
+            // 요청 데이터 설정
+            String requestJson = "{\"imp_uid\": \"" + impUid + "\"}";
+
+            // HTTP 요청 보내기
+            RestTemplate restTemplate = new RestTemplate();
+            HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
+            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
+
+            // 응답 반환
+            return ResponseEntity.ok(response.getBody());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("환불 요청 중 오류가 발생했습니다.");
+        }
+    }
+
+
+    @Value("${iamport.api.key}")
+    private String impKey;
+
+    @Value("${iamport.api.secret}")
+    private String impSecret;
+
+    public String getAccessToken() {
+
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
-        String requestJson = "{\"imp_key\": \"1682354585415623\", \"imp_secret\": \"nSB8qzVCX4Qwq3onjAmpvY0UoLz3uDutGhAmNEpUv5Rvz89E5r4zF74CEEks2wJWdpmcUm3gPvkX1rr4\"}";
+        String requestJson = String.format("{\"imp_key\": \"%s\", \"imp_secret\": \"%s\"}", impKey, impSecret);
         HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
 
         ResponseEntity<AccessTokenResponse> response = restTemplate.postForEntity(

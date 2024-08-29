@@ -123,5 +123,15 @@
                                            #{payment.finalPrice}
                                           )
     </insert>
+
+    <insert id="refund" >
+        insert into cancel values (
+                                   null,
+                                   #{bookingNo},
+                                   #{cancelAmount},
+                                   NOW(),
+                                   #{cancelBy}
+                                  )
+    </insert>
 </mapper>
 

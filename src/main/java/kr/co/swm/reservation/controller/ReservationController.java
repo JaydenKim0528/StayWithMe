@@ -31,7 +31,7 @@ public class ReservationController {
     }
 
 
-    @GetMapping("/reservation")
+    @GetMapping("/reservation0")
     public String reservation(@CookieValue(name = "Authorization", required = false)String userKey,
                               Model model) {
 
@@ -69,8 +69,6 @@ public class ReservationController {
 
         // 서비스에서 쿠폰 ID에 따라 할인 값과 할인 타입 가져오기
         WebDto discount = reservationService.getDiscount(couponId);
-
-
         return discount;
     }
 
@@ -78,16 +76,12 @@ public class ReservationController {
     @ResponseBody  // 이 메서드에서 반환된 객체를 JSON으로 변환하여 클라이언트에게 전달
     public ResponseEntity<Map<String, Object>> processReservation(@RequestBody Map<String, Object> reservationData,
                                                                   @CookieValue(name = "Authorization", required = false)String userKey
-                             ) {
-
+                                                                    ) {
         Long userNo = jwtUtil.getUserNoFromToken(userKey);
 
         // JSON으로 넘어온 데이터를 받아옵니다.
         String reserveCheckIn = (String) reservationData.get("checkInDate");
         String reserveCheckOut = (String) reservationData.get("checkOutDate");
-
-
-//        Integer reserveAmount = (Integer) reservationData.get("finalPrice");
 
         Integer couponId = null;
         if (reservationData.get("selectedCouponId") != null) {
@@ -110,24 +104,10 @@ public class ReservationController {
             reserveRoomNo = Integer.parseInt((String) reservationData.get("roomNo"));
         }
 
-
-        // 받아온 데이터를 로그로 출력하거나 다른 로직을 수행할 수 있습니다.
-        System.out.println("Check-in Date: " + reserveCheckIn);
-        System.out.println("Check-out Date: " + reserveCheckOut);
-        System.out.println("Final Price: " + reserveAmount);
-        System.out.println("room number: " + reserveRoomNo);
-        System.out.println("couponId: " + couponId);
-
         SellerDto sellerDto = new SellerDto(reserveCheckIn, reserveCheckOut, reserveRoomNo, reserveAmount);
 
-
         int save = reservationService.reserveSave(sellerDto, couponId, userNo);
-        System.out.println("assa : " + sellerDto.getBookingNo());
         int reservationNo = sellerDto.getBookingNo();
-
-
-        // 여기서 필요한 예약 처리 로직을 수행합니다.
-        // 예: 데이터베이스에 저장, 추가 검증 등
 
         // 예약 처리 결과를 반환합니다.
         Map<String, Object> response = new HashMap<>();
@@ -153,14 +133,6 @@ public class ReservationController {
         int finalPrice = Integer.parseInt(finalPriceStr);
         int reservationNo = Integer.parseInt(reservationNoStr);
 
-        System.out.println("BPrice : " + basicPrice);
-        System.out.println("DPrice : " + discountPrice);
-        System.out.println("FPrice : " + finalPrice);
-        System.out.println("bookingNo : " + reservationNo);
-        System.out.println("uid : " + uid);
-        System.out.println("method : " + method);
-
-
         PaymentDto price = new PaymentDto(basicPrice, discountPrice, finalPrice);
 
         // 결제 테이블 인입
@@ -173,16 +145,36 @@ public class ReservationController {
             reservationService.paymentDetail(paymentDto, paymentNo);
         }
 
-
-        // 예약상태 업데이트 ( 예약안료/실패 )
-//        reservationService.reserveUpdate();
-
-//        // 쿠폰 사용 시 쿠폰 use 컬럼 업데이트
-          // 사용안함 쿠폰은 업데이트 안됌
-//        reservationService.couponUsedUpdate();
-
         return "redirect:/complete";
     }
+
+    @PostMapping("/refund")
+    public ResponseEntity<String> refund(@RequestBody Map<String, String> refundData) {
+        try {
+            String cancelBy = refundData.get("cancel_by");
+            int bookingNo = Integer.parseInt(refundData.get("booking_no"));
+            int cancelAmount = Integer.parseInt(refundData.get("cancel_amount"));
+
+            int refundResult = reservationService.refund(cancelBy, bookingNo, cancelAmount);
+
+            if (refundResult > 0) {
+                // DB 업데이트 성공 시 OK 반환
+                return ResponseEntity.ok("OK");
+            } else {
+                // DB 업데이트 실패 시 실패 메시지 반환
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("DB 업데이트 실패");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+
     @GetMapping("/complete")
     public String complete() {
         return "complete";

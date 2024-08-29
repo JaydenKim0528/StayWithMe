@@ -81,9 +81,17 @@
                     <div class="reservation-item">
                         <img th:src="@{images/hotel-1.jpg}" alt="Hotel 1">
                         <div class="details">
+                            <input type="hidden" id="uid" name="uid" value="imp_318934964768">
+                            <input type="hidden" id="amount" name="amount" value="130000">
+                            <input type="hidden" id="cancelBy" name="cancelBy" value="김진우">
+                            <input type="hidden" id="bookingNo" name="bookingNo" value="86">
+
                             <p>호텔 이름: 아산 카네기</p>
                             <p>예약 상태: 이용완료</p>
                             <button class="btn-primary">예약 상세</button>
+                        </div>
+                        <div class="reservation-cancel">
+                            <button type="button" class="btn-danger" onclick="requestRefund()" >예약 취소</button>
                         </div>
                     </div>
                     <div class="reservation-item">
@@ -101,9 +109,7 @@
                     </div>
                 </div>
                 <!-- 예약 취소 버튼 추가 -->
-                <div class="reservation-cancel">
-                    <button class="btn-danger" onclick="requestRefund()" >예약 취소</button>
-                </div>
+
             </div>
 
             <!-- 쿠폰 섹션 -->
@@ -298,6 +304,7 @@
 
 
 </body>
+<script th:src="@{/js/refund.js}"></script>
 <script th:src="@{/js/member/mypage.js}"></script>
 <div th:include="fragments/js.html :: js"></div>
 </html>
