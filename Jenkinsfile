@@ -9,6 +9,13 @@ pipeline {
             }
         }
 
+        stage('Set Permissions') {
+            steps {
+                // gradlew 파일에 실행 권한 부여
+                sh 'chmod +x ./gradlew'
+            }
+        }
+
         stage('Build') {
             steps {
                 // Gradle을 이용하여 프로젝트 빌드
