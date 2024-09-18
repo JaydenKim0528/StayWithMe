@@ -9,9 +9,10 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Set Permissions') {
             steps {
-                sh './gradlew build --debug'
+                // gradlew 파일의 실행 권한을 설정
+                sh 'chmod +x ./gradlew'
             }
         }
 
